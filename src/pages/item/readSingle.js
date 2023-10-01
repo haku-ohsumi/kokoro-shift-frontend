@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 const ReadSingleItem = () => {
   const params = useParams()
 
-  const[title, setTitle] = useState("")
-  const[price, setPrice] = useState("")
-  const[image, setImage] = useState("")
-  const[description, setDescription] = useState("")
+  const [title, setTitle] = useState("")
+  const [price, setPrice] = useState("")
+  const [image, setImage] = useState("")
+  const [description, setDescription] = useState("")
 
   useEffect(() => {
     const getSingleItem = async() => {
@@ -19,6 +19,7 @@ const ReadSingleItem = () => {
       setDescription(jsonResponse.singleItem.description)
     }
     getSingleItem()
+
   },[params.id])
 
   return (
@@ -31,6 +32,10 @@ const ReadSingleItem = () => {
         <h2>¥{price}</h2>
         <hr/>
         <p>{description}</p>
+        <div>
+          <Link to={`/item/update/${params.id}`}>アイテム編集</Link>
+          <Link to={`/item/delete/${params.id}`}>アイテム削除</Link>
+        </div>
       </div>
     </div>
   )
