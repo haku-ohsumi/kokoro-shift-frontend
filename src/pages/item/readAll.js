@@ -6,7 +6,7 @@ const ReadAll = () => {
 
   useEffect(() =>{
     const getAllItems = async() => {
-      const response = await fetch("https://mern-stack-backend-kw5i.onrender.com/")
+      const response = await fetch("https://mern-stack-backend-kw5i.onrender.com")
       const jsonResponse = await response.json()
       setAllItems(jsonResponse)
     }
