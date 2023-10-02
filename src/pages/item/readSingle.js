@@ -23,7 +23,7 @@ const ReadSingleItem = () => {
   },[params.id])
 
   return (
-    <div>
+    <div className="grid-container-si">
       <div>
         {image && <img src={require(`../../images${image}`)} alt="item"/>}
       </div>
