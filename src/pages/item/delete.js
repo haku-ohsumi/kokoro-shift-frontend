@@ -14,7 +14,7 @@ const DeleteItem = () => {
 
   useEffect(() => {
     const getSingleItem = async() => {
-      const response = await fetch(`http://localhost:5050/item/${params.id}`)
+      const response = await fetch(`https://mern-stack-backend-kw5i.onrender.com//item/${params.id}`)
       const jsonResponse = await response.json()
       setTitle(jsonResponse.singleItem.title)
       setPrice(jsonResponse.singleItem.price)
@@ -28,7 +28,7 @@ const DeleteItem = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()
     try{
-      const response = await fetch(`http://localhost:5050/item/delete/${params.id}`,{
+      const response = await fetch(`https://mern-stack-backend-kw5i.onrender.com//item/delete/${params.id}`,{
         method: "DELETE",
         headers:{
           "Accept": "application/json",
