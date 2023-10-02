@@ -20,8 +20,9 @@ body{
   color: #333;
 }
 
-.container{  
-  max-width: 1100px; 
+.container{
+  overflow-x: hidden;
+  max-width: 100%; 
   margin-right: auto; 
   margin-left:  auto;
   padding-right: 1.5rem; 
@@ -134,7 +135,13 @@ header * li a:hover{
 
 /* Index */
 .grid-container-in{
-  display: grid;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  height: auto;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 3rem;
 }
@@ -146,9 +153,11 @@ header * li a:hover{
 } 
 
 .card{
+  margin: 5px;
+  padding: 30px;
   display: block;
   border-radius: 1rem;
-  width: 100%;
+  max-width: calc(27.56% - 10px);
   border: 0.05rem solid rgb(223, 223, 223);
 }
 
@@ -161,6 +170,8 @@ header * li a:hover{
 .card * img, .card > img{
   width: 100%;
   border-radius: 1rem 1rem 0 0; 
+  max-width: 100%;
+  height: auto;
 }
 
 .texts-area{
