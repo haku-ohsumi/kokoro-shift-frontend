@@ -5,7 +5,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try{
-      const response = await fetch("https://mern-stack-backend-kw5i.onrender.com//user/register",{
+      const response = await fetch("https://mern-stack-backend-kw5i.onrender.com/user/register",{
         method:"POST",
         headers:{
           "Accept": "application/json",

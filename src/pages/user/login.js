@@ -7,7 +7,7 @@ const Login = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()
     try{
-      const response = await fetch("https://mern-stack-backend-kw5i.onrender.com//user/login",{
+      const response = await fetch("https://mern-stack-backend-kw5i.onrender.com/user/login",{
         method: "POST",
         headers: {
           "Accept": "application/json",
