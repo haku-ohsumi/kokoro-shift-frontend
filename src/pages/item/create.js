@@ -11,7 +11,7 @@ const CreateItem = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()
     try{
-      const response = await fetch("http://localhost:5050/item/create",{
+      const response = await fetch("https://mern-stack-backend-kw5i.onrender.com//item/create",{
         method: "POST",
         headers:{
           "Accept": "application/json",
