@@ -1,8 +1,10 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 const StaffLogin = () => {
   const[email, setEmail] = useState("")
   const[password, setPassword] = useState("")
+  const navigate = useNavigate();
 
   const handleSubmit = async(e) => {
     e.preventDefault()
@@ -18,9 +20,20 @@ const StaffLogin = () => {
           password: password
         })
       })
-      const jsonResponse = await response.json()
-      localStorage.setItem("staffToken", jsonResponse.staffToken)
-      alert(jsonResponse.message)
+
+        // トークンを発行
+        const jsonResponse = await response.json()
+        localStorage.setItem("staffToken", jsonResponse.staffToken)
+        alert(jsonResponse.message)
+
+        // staffIdが含まれているか確認
+        if (jsonResponse.staffId) {
+          // staffIdがある場合にのみ遷移
+          navigate(`/staff/${jsonResponse.staffId}/dashboard`);
+        } else {
+          alert("staffIdが見つかりません");
+        }
+
     }catch(err){
       alert("ログイン失敗")
     }
