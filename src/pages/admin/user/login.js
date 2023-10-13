@@ -19,7 +19,7 @@ const AdminLogin = () => {
         })
       })
       const jsonResponse = await response.json()
-      localStorage.setItem("token", jsonResponse.token)
+      localStorage.setItem("adminToken", jsonResponse.adminToken)
       alert(jsonResponse.message)
     }catch(err){
       alert("ログイン失敗")
