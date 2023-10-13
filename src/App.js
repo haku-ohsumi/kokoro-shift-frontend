@@ -2,6 +2,7 @@ import { Route, Routes, BrowserRouter} from "react-router-dom"
 
 import AdminLogin from"./pages/admin/user/login"
 import AdminRegister from"./pages/admin/user/register"
+import StaffLogin from"./pages/staff/user/login"
 import StaffRegister from"./pages/admin/staff/register"
 import Header from "./components/header"
 import Footer from "./components/footer"
@@ -17,6 +18,7 @@ const App = () => {
       <Routes>
         <Route path="/admin/user/login" element={<AdminLogin/>}/>
         <Route path="/admin/user/register" element={<AdminRegister/>}/>
+        <Route path="/staff/user/login" element={<StaffLogin/>}/>
         <Route path="/admin/staff/register" element={<StaffRegister/>}/>
       </Routes>
       <Footer/>

@@ -1,13 +1,13 @@
 import { useState } from "react"
 
-const Login = () => {
+const StaffLogin = () => {
   const[email, setEmail] = useState("")
   const[password, setPassword] = useState("")
 
   const handleSubmit = async(e) => {
     e.preventDefault()
     try{
-      const response = await fetch("https://mern-stack-backend-kw5i.onrender.com/user/login",{
+      const response = await fetch("http://localhost:5100/staff/user/login",{
         method: "POST",
         headers: {
           "Accept": "application/json",
@@ -28,7 +28,7 @@ const Login = () => {
 
   return (
     <div>
-      <h1 className="page-title">ログイン</h1>
+      <h1 className="page-title">スタッフログイン</h1>
       <form onSubmit={handleSubmit}>
         <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" name="email" placeholder="メールアドレス" required/>
         <input value={password} onChange={(e) => setPassword(e.target.value)} type="text" name="password" placeholder="パスワード" required/>
@@ -38,4 +38,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default StaffLogin
