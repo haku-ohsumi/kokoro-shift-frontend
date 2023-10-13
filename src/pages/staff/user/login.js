@@ -19,7 +19,7 @@ const StaffLogin = () => {
         })
       })
       const jsonResponse = await response.json()
-      localStorage.setItem("token", jsonResponse.token)
+      localStorage.setItem("staffToken", jsonResponse.staffToken)
       alert(jsonResponse.message)
     }catch(err){
       alert("ログイン失敗")
