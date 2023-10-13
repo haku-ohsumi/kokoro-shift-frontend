@@ -1,7 +1,7 @@
 import { Route, Routes, BrowserRouter} from "react-router-dom"
 
-import AdminLogin from"./pages/user/adminLogin"
-import AdminRegister from"./pages/user/adminRegister"
+import AdminLogin from"./pages/admin/user/login"
+import AdminRegister from"./pages/admin/user/register"
 import Header from "./components/header"
 import Footer from "./components/footer"
 
