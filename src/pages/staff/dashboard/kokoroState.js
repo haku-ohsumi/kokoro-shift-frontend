@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
-const HeartStateForm = () => {
-  const [heartState, setHeartState] = useState(5); // 初期値を5に設定
+const KokoroStateForm = () => {
+  const [kokoroState, setKokoroState] = useState(5); // 初期値を5に設定
 
-  const handleHeartStateChange = (e) => {
+  const handleKokoroStateChange = (e) => {
     const selectedState = parseInt(e.target.value, 10); // 選択された値を数値に変換
-    setHeartState(selectedState);
+    setKokoroState(selectedState);
   };
 
   const handleSubmit = async (e) => {
@@ -18,7 +18,7 @@ const HeartStateForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ heartState }),
+        body: JSON.stringify({ kokoroState }),
       });
 
       if (response.status === 200) {
@@ -37,7 +37,7 @@ const HeartStateForm = () => {
       <form onSubmit={handleSubmit}>
         <label>
           ココロの状態:
-          <select value={heartState} onChange={handleHeartStateChange}>
+          <select value={kokoroState} onChange={handleKokoroStateChange}>
             {Array.from({ length: 10 }, (_, i) => (
               <option key={i} value={i + 1}>
                 {i + 1}
@@ -51,4 +51,4 @@ const HeartStateForm = () => {
   );
 };
 
-export default HeartStateForm;
+export default KokoroStateForm;
