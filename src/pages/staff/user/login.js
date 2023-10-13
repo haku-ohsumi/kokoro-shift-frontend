@@ -28,7 +28,7 @@ const StaffLogin = () => {
 
         // staffIdが含まれているか確認
         if (jsonResponse.staffId) {
-          // staffIdがある場合にのみ遷移
+                    // staffIdがある場合にのみ遷移
           navigate(`/staff/${jsonResponse.staffId}/dashboard`);
         } else {
           alert("staffIdが見つかりません");
