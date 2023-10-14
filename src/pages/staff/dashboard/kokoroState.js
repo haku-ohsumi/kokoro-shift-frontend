@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const KokoroStateForm = () => {
+  const navigate = useNavigate();
+  
   const [kokoroState, setKokoroState] = useState(5); // 初期値を5に設定
 
   const handleKokoroStateChange = (e) => {
@@ -43,6 +46,9 @@ const KokoroStateForm = () => {
   const handleLogout = () => {
     // セッションストレージをクリア
     window.sessionStorage.clear();
+
+    // ログアウト後にスタッフログイン画面に遷移
+    navigate('/staff/user/login');
   }
 
   return (
