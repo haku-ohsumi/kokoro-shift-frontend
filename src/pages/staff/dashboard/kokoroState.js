@@ -13,7 +13,7 @@ const KokoroStateForm = () => {
 
     // APIにデータを送信
     try {
-      const response = await fetch("APIのエンドポイント", {
+      const response = await fetch("http://localhost:5100/staff/kokoro/state", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,11 +22,12 @@ const KokoroStateForm = () => {
       });
 
       if (response.status === 200) {
-        console.log("データが正常に送信されました");
+        alert("データが正常に送信されました");
       } else {
-        console.error("データの送信中にエラーが発生しました");
+        alert("データの送信中にエラーが発生しました");
       }
     } catch (error) {
+      alert("エラーが発生しました");
       console.error("エラーが発生しました", error);
     }
   };
