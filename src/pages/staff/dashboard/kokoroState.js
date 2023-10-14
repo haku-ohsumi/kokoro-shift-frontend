@@ -40,6 +40,11 @@ const KokoroStateForm = () => {
     }
   };
 
+  const handleLogout = () => {
+    // セッションストレージをクリア
+    window.sessionStorage.clear();
+  }
+
   return (
     <div>
       <h1>ココロの状態を選択</h1>
@@ -56,6 +61,8 @@ const KokoroStateForm = () => {
         </label>
         <button type="submit">送信</button>
       </form>
+      {/* ログアウトボタン */}
+      <button onClick={handleLogout}>ログアウト</button>
     </div>
   );
 };
