@@ -28,6 +28,7 @@ const StaffLogin = () => {
 
         // staffIdが含まれているか確認
         if (jsonResponse.staffId) {
+          sessionStorage.setItem("staffId", jsonResponse.staffId);
                     // staffIdがある場合にのみ遷移
           navigate(`/staff/${jsonResponse.staffId}/dashboard`);
         } else {
