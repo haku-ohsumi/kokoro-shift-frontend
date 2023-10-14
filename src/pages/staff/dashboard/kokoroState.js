@@ -11,9 +11,17 @@ const KokoroStateForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // StaffIDをセッションストレージから取得
+    const staffId = sessionStorage.getItem("staffId");
+
+    if (!staffId) {
+      alert("StaffIDが見つかりません");
+      return;
+    }
+
     // APIにデータを送信
     try {
-      const response = await fetch("http://localhost:5100/staff/kokoro/state", {
+      const response = await fetch(`http://localhost:5100/staff/kokoro/state/${staffId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
