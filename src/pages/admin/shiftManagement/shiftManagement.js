@@ -97,7 +97,7 @@
 
 import React, { useState } from 'react';
 
-function WorkTimeForm() {
+function ShiftForm() {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
 
@@ -105,7 +105,7 @@ function WorkTimeForm() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5100/api/save-work-time", {
+      const response = await fetch("http://localhost:5100/admin/staffId/shift-management", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,12 +114,12 @@ function WorkTimeForm() {
       });
 
       if (response.ok) {
-        console.log("Work time saved successfully.");
+        alert("シフトが保存されました");
       } else {
-        console.error("Failed to save work time.");
+        alert("シフトが保存できませんでした");
       }
     } catch (error) {
-      console.error("Error:", error);
+      alert("Error:", error);
     }
   };
 
@@ -146,5 +146,5 @@ function WorkTimeForm() {
   );
 }
 
-export default WorkTimeForm;
+export default ShiftForm;
 
