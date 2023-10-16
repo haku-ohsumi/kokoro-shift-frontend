@@ -57,6 +57,10 @@ a{
   text-decoration: none;
 }
 
+li{
+  font-size: 2rem;
+}
+
 .page-title{
   margin: 3rem 0 4rem;
   text-align: center;
