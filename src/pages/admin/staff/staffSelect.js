@@ -14,7 +14,7 @@ function StaffSelect() {
 
   const handleStaffClick = (staffId) => {
     // スタッフ名をクリックした際のハンドラー
-    sessionStorage.setItem("StaffIdAdmin", staffId);
+    sessionStorage.setItem("staffIdAdmin", staffId);
     navigate("/admin/staffId/shift-management");
   };
 

@@ -8,8 +8,17 @@ function ShiftForm() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    // StaffIDをセッションストレージから取得
+    const staffIdAdmin = sessionStorage.getItem("staffIdAdmin");
+
+    if (!staffIdAdmin) {
+      alert("StaffIDが見つかりません");
+      return;
+    }
+
+
     try {
-      const response = await fetch("http://localhost:5100/admin/staffId/shift-management", {
+      const response = await fetch(`http://localhost:5100/admin/${staffIdAdmin}/shift-management`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
