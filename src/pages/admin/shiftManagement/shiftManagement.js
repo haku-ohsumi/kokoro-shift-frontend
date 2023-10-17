@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid'
 
 function ShiftForm() {
   const [startTime, setStartTime] = useState('');
@@ -67,8 +67,8 @@ function ShiftForm() {
       </form>
         <div>
         <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
+          plugins= {[timeGridPlugin]}
+          initialView= 'timeGridWeek'
           events={events}
         />
         </div>
