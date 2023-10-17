@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -7,6 +7,21 @@ function ShiftForm() {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [events, setEvents] = useState([]); 
+  const [shifts, setShifts] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5100/api/shifts') // バックエンドのエンドポイントにGETリクエストを送信
+      .then((response) => response.json())
+      .then((data) => {
+        const shiftEvents = data.map((shift) => ({
+          title: 'Shift',
+          start: shift.startTime,
+          end: shift.endTime,
+        }));
+        setEvents(shiftEvents);
+      })
+      .catch((error) => console.error('データの取得に失敗しました', error));
+  }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
