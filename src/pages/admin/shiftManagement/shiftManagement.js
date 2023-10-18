@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction';
 
 function ShiftForm() {
   const [startTime, setStartTime] = useState('');
@@ -26,6 +26,7 @@ function ShiftForm() {
             // console.log('staffIdAdmin (left):', shift.staffIdAdmin); // staffIdAdmin の値をコンソールに出力
             // console.log('staffIdAdmin (right):', staffIdAdmin);
             const shiftEvents = filteredShifts.map((shift) => ({
+              id: shift._id,
               title: 'Shift',
               start: shift.startTime,
               end: shift.endTime,
@@ -71,6 +72,29 @@ function ShiftForm() {
     }
   };
 
+  const handleEventClick = (info,arg) => {
+      if (window.confirm('このイベントを削除しますか？')) {
+        const updatedEvents = events.filter((event) => event !== info.event.id);
+        info.event.remove()
+        setEvents(updatedEvents);
+  
+        // バックエンドのAPIにイベントIDを送信してデータベースからも削除
+        fetch(`http://localhost:5100/api/delete-event/${info.event.id}`, {
+          method: 'DELETE',
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log('イベントが削除されました');
+            } else {
+              console.error('イベントの削除に失敗しました');
+            }
+          })
+          .catch((error) => {
+            console.error('エラー:', error);
+          });
+      }
+  };
+
   return (
     <div>
       <form onSubmit={handleFormSubmit}>
@@ -94,9 +118,10 @@ function ShiftForm() {
       </form>
         <div>
         <FullCalendar
-          plugins= {[timeGridPlugin]}
+          plugins= {[timeGridPlugin, interactionPlugin]}
           initialView= 'timeGridWeek'
           events={events}
+          eventClick={handleEventClick}
         />
         </div>
     </div>
