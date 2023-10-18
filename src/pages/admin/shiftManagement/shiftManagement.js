@@ -7,19 +7,31 @@ function ShiftForm() {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [events, setEvents] = useState([]); 
-  const [shifts, setShifts] = useState([]);
 
   useEffect(() => {
+    // セッションストレージから staffIdAdmin を取得
+    // const sessionStaffIdAdmin = sessionStorage.getItem('staffIdAdmin');
+    // if (sessionStaffIdAdmin) {
+    //   setStaffIdAdmin(sessionStaffIdAdmin);
+    // }
+  }, []);
+
+  useEffect(() => {
+    const staffIdAdmin = sessionStorage.getItem("staffIdAdmin");
     fetch('http://localhost:5100/api/shifts') // バックエンドのエンドポイントにGETリクエストを送信
       .then((response) => response.json())
       .then((data) => {
-        const shiftEvents = data.map((shift) => ({
-          title: 'Shift',
-          start: shift.startTime,
-          end: shift.endTime,
-        }));
-        setEvents(shiftEvents);
-      })
+        const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
+            console.log('Filtered Shifts:', filteredShifts);
+            // console.log('staffIdAdmin (left):', shift.staffIdAdmin); // staffIdAdmin の値をコンソールに出力
+            // console.log('staffIdAdmin (right):', staffIdAdmin);
+            const shiftEvents = filteredShifts.map((shift) => ({
+              title: 'Shift',
+              start: shift.startTime,
+              end: shift.endTime,
+            }));
+          setEvents(shiftEvents);
+        })
       .catch((error) => console.error('データの取得に失敗しました', error));
   }, []);
 
@@ -28,7 +40,7 @@ function ShiftForm() {
 
     // StaffIDをセッションストレージから取得
     const staffIdAdmin = sessionStorage.getItem("staffIdAdmin");
-
+    
     if (!staffIdAdmin) {
       alert("StaffIDが見つかりません");
       return;
