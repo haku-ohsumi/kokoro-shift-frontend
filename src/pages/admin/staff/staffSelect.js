@@ -6,7 +6,7 @@ function StaffSelect() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5100/api/staffUsers") // バックエンドのエンドポイントにGETリクエストを送信
+    fetch("http://localhost:5100/admin/staff/select") // バックエンドのエンドポイントにGETリクエストを送信
       .then((response) => response.json())
       .then((data) => setStaffUsers(data))
       .catch((error) => console.error("データの取得に失敗しました", error));

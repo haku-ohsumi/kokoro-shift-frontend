@@ -18,7 +18,7 @@ function ShiftForm() {
 
   useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffIdAdmin");
-    fetch('http://localhost:5100/api/shifts') // バックエンドのエンドポイントにGETリクエストを送信
+    fetch('http://localhost:5100/admin/shift/read') // バックエンドのエンドポイントにGETリクエストを送信
       .then((response) => response.json())
       .then((data) => {
         const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
@@ -33,7 +33,7 @@ function ShiftForm() {
             }));
           setEvents(shiftEvents);
         })
-      .catch((error) => console.error('データの取得に失敗しました', error));
+      .catch((error) => console.error('シフトの取得に失敗しました', error));
   }, []);
 
   const handleFormSubmit = async (e) => {
@@ -43,7 +43,7 @@ function ShiftForm() {
     const staffIdAdmin = sessionStorage.getItem("staffIdAdmin");
     
     if (!staffIdAdmin) {
-      alert("StaffIDが見つかりません");
+      alert("スタッフIDが見つかりません");
       return;
     }
 
@@ -79,18 +79,18 @@ function ShiftForm() {
         setEvents(updatedEvents);
   
         // バックエンドのAPIにイベントIDを送信してデータベースからも削除
-        fetch(`http://localhost:5100/api/delete-event/${info.event.id}`, {
+        fetch(`http://localhost:5100/admin/shift/delete/${info.event.id}`, {
           method: 'DELETE',
         })
           .then((response) => {
             if (response.ok) {
-              console.log('イベントが削除されました');
+              alert('シフトが削除されました');
             } else {
-              console.error('イベントの削除に失敗しました');
+              alert('シフトの削除に失敗しました');
             }
           })
           .catch((error) => {
-            console.error('エラー:', error);
+            alert('エラー:', error);
           });
       }
   };
@@ -99,7 +99,7 @@ function ShiftForm() {
     <div>
       <form onSubmit={handleFormSubmit}>
         <div>
-          <label>勤務開始予定時間:</label>
+          <label>開始:</label>
           <input
             type="datetime-local"
             value={startTime}
@@ -107,7 +107,7 @@ function ShiftForm() {
           />
         </div>
         <div>
-          <label>勤務終了予定時間:</label>
+          <label>終了:</label>
           <input
             type="datetime-local"
             value={endTime}
