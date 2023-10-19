@@ -1,6 +1,8 @@
 import { useState } from "react"
+import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
   const[email, setEmail] = useState("")
   const[password, setPassword] = useState("")
 
@@ -21,6 +23,8 @@ const AdminLogin = () => {
       const jsonResponse = await response.json()
       localStorage.setItem("adminToken", jsonResponse.adminToken)
       alert(jsonResponse.message)
+      // ログインに成功したら staff select 画面にリダイレクト
+      navigate('/admin/staff-select');
     }catch(err){
       alert("ログイン失敗")
     }

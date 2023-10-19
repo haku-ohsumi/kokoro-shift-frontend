@@ -7,6 +7,7 @@ import StaffRegister from"./pages/admin/staff/register"
 import KokoroStateForm from"./pages/staff/dashboard/kokoroState"
 import StaffSelect from"./pages/admin/staff/staffSelect"
 import ShiftForm from"./pages/admin/shiftManagement/shiftManagement"
+import Home from "./pages/home"
 import Header from "./components/header"
 import Footer from "./components/footer"
 
@@ -19,6 +20,7 @@ const App = () => {
       <div className="container">
         <Header/>
       <Routes>
+        <Route path="/" element={<Home/>}/>
         <Route path="/admin/user/login" element={<AdminLogin/>}/>
         <Route path="/admin/user/register" element={<AdminRegister/>}/>
         <Route path="/staff/user/login" element={<StaffLogin/>}/>
