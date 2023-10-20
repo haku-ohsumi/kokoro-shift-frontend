@@ -29,7 +29,7 @@ function ShiftForm() {
             // console.log('staffIdAdmin (right):', staffIdAdmin);
             const shiftEvents = filteredShifts.map((shift) => ({
               id: shift._id,
-              title: 'Shift',
+              title: shift.title,
               start: shift.startTime,
               end: shift.endTime,
             }));
