@@ -87,33 +87,6 @@ const KokoroStateForm = () => {
       fetchKokoroRisk();
   }, []);
 
-  const handleEventClick = (info) => {
-    if (window.confirm('この日時にココロシフトを申請しますか？')) {
-      const updatedEvents = events.filter((event) => event !== info.event.id);
-      info.event.remove()
-      setEvents(updatedEvents);
-
-    // バックエンドのAPIにイベントIDを送信してデータベース上のtitleを変更
-    fetch(`http://localhost:5100/admin/kokoro-shift/application/${info.event.id}`, {
-      method: 'PATCH', // データの更新にはPATCHメソッドを使用
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title: 'ココロシフト申請中' }), // 変更後のtitleを指定
-    })
-      .then((response) => {
-        if (response.ok) {
-          alert('ココロシフトが申請されました');
-        } else {
-          alert('ココロシフトの申請に失敗しました');
-        }
-      })
-      .catch((error) => {
-        alert('エラー:', error);
-      });
-    }
-  };
-
   const handleLogout = () => {
     // セッションストレージをクリア
     window.sessionStorage.clear();
@@ -159,7 +132,6 @@ const KokoroStateForm = () => {
           plugins= {[timeGridPlugin, interactionPlugin]}
           initialView= 'timeGridWeek'
           events={events}
-          eventClick={handleEventClick}
         />
         </div>
       </form>

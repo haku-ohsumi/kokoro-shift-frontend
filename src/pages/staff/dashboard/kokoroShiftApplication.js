@@ -7,9 +7,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 const KokoroShiftApplication = () => {
   const navigate = useNavigate();
   
-  const [kokoroState, setKokoroState] = useState(5); // 初期値を5に設定
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
   const [events, setEvents] = useState([]); 
   const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffId'));
   const [kokoroRisk, setKokoroRisk] = useState(null); 
