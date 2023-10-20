@@ -60,7 +60,7 @@ const KokoroStateForm = () => {
         const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
             console.log('Filtered Shifts:', filteredShifts);
 
-            // 新たに追加: "ココロシフト申請中" のシフトがある場合、ココロシフト申請中と表示
+            //"ココロシフト申請中" のシフトがある場合、ココロシフト申請中と表示
             const hasKokoroShiftApplication = filteredShifts.some((shift) => shift.title === "ココロシフト申請中");
             console.log(hasKokoroShiftApplication)
             if (hasKokoroShiftApplication) {
@@ -107,11 +107,19 @@ const KokoroStateForm = () => {
     navigate('/staff/kokoro-shift/application');
   };
 
+  const handleKokoroShiftAgreement = () => {
+    // ココロシフト申請ボタンがクリックされたときに /staff/kokoro-shift/application に遷移
+    navigate('/staff/kokoro-shift/agreement');
+  };
+
   return (
     <div>
       <div>
       {kokoroRisk === 'KokoroBad' && !kokoroShiftApplied && (
       <button onClick={handleKokoroShiftApplication}>ココロシフト申請</button>
+      )}
+      {kokoroRisk === 'KokoroGood' && (
+      <button onClick={handleKokoroShiftAgreement}>ココロシフト承認</button>
       )}
       </div>
       {kokoroShiftApplied && (
