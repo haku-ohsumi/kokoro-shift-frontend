@@ -16,17 +16,29 @@ const KokoroShiftAgreement = () => {
     fetch('http://localhost:5100/admin/shift/read') // バックエンドのエンドポイントにGETリクエストを送信
       .then((response) => response.json())
       .then((data) => {
-        const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
-            console.log('Filtered Shifts:', filteredShifts);
-            // console.log('staffIdAdmin (left):', shift.staffIdAdmin); // staffIdAdmin の値をコンソールに出力
-            // console.log('staffIdAdmin (right):', staffIdAdmin);
-            const shiftEvents = filteredShifts.map((shift) => ({
-              id: shift._id,
-              title: shift.title,
-              start: shift.startTime,
-              end: shift.endTime,
-            }));
-          setEvents(shiftEvents);
+      // すべてのシフトデータを取得
+      const allShifts = data;
+
+      // 1. staffIdAdmin に一致するシフトをフィルタリング
+      const filteredShifts = allShifts.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
+      const filteredShiftEvents = filteredShifts.map((shift) => ({
+        id: shift._id,
+        title: shift.title,
+        start: shift.startTime,
+        end: shift.endTime,
+      }));
+
+      // 2. title が "ココロシフト申請中" に一致するシフトをフィルタリング
+      const kokoroShifts = allShifts.filter((shift) => shift.title === "ココロシフト申請中");
+      const kokoroShiftEvents = kokoroShifts.map((shift) => ({
+        id: shift._id,
+        title: shift.title,
+        start: shift.startTime,
+        end: shift.endTime,
+    }));
+
+    // 両方のデータセットを結合して setEvents にセット
+    setEvents([...filteredShiftEvents, ...kokoroShiftEvents]);
         })
       .catch((error) => console.error('シフトの取得に失敗しました', error));
 
