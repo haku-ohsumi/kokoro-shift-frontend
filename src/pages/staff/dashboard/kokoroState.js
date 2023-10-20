@@ -13,6 +13,7 @@ const KokoroStateForm = () => {
   const [events, setEvents] = useState([]); 
   const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffId'));
   const [kokoroRisk, setKokoroRisk] = useState(null); 
+  const [kokoroShiftApplied, setKokoroShiftApplied] = useState(false);
 
   const handleKokoroStateChange = (e) => {
     const selectedState = parseInt(e.target.value, 10); // 選択された値を数値に変換
@@ -58,8 +59,14 @@ const KokoroStateForm = () => {
       .then((data) => {
         const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
             console.log('Filtered Shifts:', filteredShifts);
-            // console.log('staffIdAdmin (left):', shift.staffIdAdmin); // staffIdAdmin の値をコンソールに出力
-            // console.log('staffIdAdmin (right):', staffIdAdmin);
+
+            // 新たに追加: "ココロシフト申請中" のシフトがある場合、ココロシフト申請中と表示
+            const hasKokoroShiftApplication = filteredShifts.some((shift) => shift.title === "ココロシフト申請中");
+            console.log(hasKokoroShiftApplication)
+            if (hasKokoroShiftApplication) {
+              setKokoroShiftApplied(true); // ココロシフト申請がある場合に true に設定
+            }
+
             const shiftEvents = filteredShifts.map((shift) => ({
               id: shift._id,
               title: shift.title,
@@ -67,8 +74,8 @@ const KokoroStateForm = () => {
               end: shift.endTime,
             }));
           setEvents(shiftEvents);
-        })
-      .catch((error) => console.error('シフトの取得に失敗しました', error));
+              })
+              .catch((error) => console.error('シフトの取得に失敗しました', error));
 
       async function fetchKokoroRisk() {
       try {
@@ -103,10 +110,13 @@ const KokoroStateForm = () => {
   return (
     <div>
       <div>
-      {kokoroRisk === 'KokoroBad' && (
-        <button onClick={handleKokoroShiftApplication}>ココロシフト申請</button>
+      {kokoroRisk === 'KokoroBad' && !kokoroShiftApplied && (
+      <button onClick={handleKokoroShiftApplication}>ココロシフト申請</button>
       )}
       </div>
+      {kokoroShiftApplied && (
+          <p>ココロシフト申請中</p>
+        )}
       <div>
       {kokoroRisk ? (
         <p>{kokoroRisk}</p>
