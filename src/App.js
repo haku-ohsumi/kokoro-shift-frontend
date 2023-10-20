@@ -5,6 +5,7 @@ import AdminRegister from"./pages/admin/user/register"
 import StaffLogin from"./pages/staff/user/login"
 import StaffRegister from"./pages/admin/staff/register"
 import KokoroStateForm from"./pages/staff/dashboard/kokoroState"
+import KokoroShiftApplication from"./pages/staff/dashboard/kokoroShiftApplication"
 import StaffSelect from"./pages/admin/staff/staffSelect"
 import ShiftForm from"./pages/admin/shiftManagement/shiftManagement"
 import Home from "./pages/home"
@@ -25,7 +26,8 @@ const App = () => {
         <Route path="/admin/user/register" element={<AdminRegister/>}/>
         <Route path="/staff/user/login" element={<StaffLogin/>}/>
         <Route path="/admin/staff/register" element={<StaffRegister/>}/>
-        <Route path="/staff/:staffId/dashboard" element={<KokoroStateForm/>}/>
+        <Route path="/staff/dashboard" element={<KokoroStateForm/>}/>
+        <Route path="/staff/kokoro-shift/application" element={<KokoroShiftApplication/>}/>
         <Route path="/admin/staff-select" element={<StaffSelect/>}/>
         <Route path="/admin/staffId/shift-management" element={<ShiftForm/>}/>
       </Routes>
