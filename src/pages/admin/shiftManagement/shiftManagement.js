@@ -7,6 +7,8 @@ function ShiftForm() {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [events, setEvents] = useState([]); 
+  const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffIdAdmin'));
+  const [kokoroRisk, setKokoroRisk] = useState(null); 
 
   useEffect(() => {
     // セッションストレージから staffIdAdmin を取得
@@ -34,6 +36,22 @@ function ShiftForm() {
           setEvents(shiftEvents);
         })
       .catch((error) => console.error('シフトの取得に失敗しました', error));
+
+      async function fetchKokoroRisk() {
+      try {
+        const response = await fetch(`http://localhost:5100/api/calculate-kokoro-risk/${staffIdAdmin}`);
+
+        if (response.ok) {
+          const kokoroRiskData = await response.json();
+          console.log(kokoroRiskData)
+          setKokoroRisk(kokoroRiskData.kokoroRisk); 
+        } else {
+          console.error('ココロリスクの取得に失敗しました');
+        }
+      } catch (error) {
+        console.error('エラー:', error);
+      }}
+      fetchKokoroRisk();
   }, []);
 
   const handleFormSubmit = async (e) => {
@@ -97,6 +115,11 @@ function ShiftForm() {
 
   return (
     <div>
+      {kokoroRisk ? (
+        <p>{kokoroRisk}</p>
+      ) : (
+        <p>ココロリスクを読み込んでいます...</p>
+      )}
       <form onSubmit={handleFormSubmit}>
         <div>
           <label>開始:</label>
