@@ -98,7 +98,7 @@ button{
 
 button:hover{
   opacity: 0.8;
-  background: linear-gradient(135deg,#63A1FF,#73FF92);
+  background: #EFB2AE;
 }
 
 /* Header */
