@@ -60,6 +60,27 @@ const KokoroShiftAgreement = () => {
   }, []);
 
   const handleEventClick = (info) => {
+      // ここで info.event.id からクリックされたココロシフトの詳細を取得し、時間の重複をチェック
+  const clickedShift = events.find((event) => event.id === info.event.id);
+
+  // 重複チェックのための関数を作成
+  const isTimeOverlap = (eventA, eventB) => {
+    const startA = new Date(eventA.start);
+    const endA = new Date(eventA.end);
+    const startB = new Date(eventB.start);
+    const endB = new Date(eventB.end);
+
+    return (startA < endB && endA > startB);
+  };
+
+  // 重複するココロシフトがあるかチェック
+  const hasTimeOverlap = events.some((event) => {
+    return event.id !== info.event.id && isTimeOverlap(event, clickedShift);
+  });
+
+    if (hasTimeOverlap) {
+      alert('時間が重複しているココロシフトがあります。承認できません。');
+    } else {
     if (window.confirm('このココロシフトを承認しますか？')) {
       const staffIdAdmin = sessionStorage.getItem("staffId");
       const updatedEvents = events.filter((event) => event !== info.event.id);
@@ -84,6 +105,7 @@ const KokoroShiftAgreement = () => {
       .catch((error) => {
         alert('エラー:', error);
       });
+     }
     }
   };
 
