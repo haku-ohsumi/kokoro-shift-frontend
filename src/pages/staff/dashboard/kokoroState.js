@@ -60,10 +60,10 @@ const KokoroStateForm = () => {
         const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
             console.log('Filtered Shifts:', filteredShifts);
 
-            //"ココロシフト申請中" のシフトがある場合、ココロシフト申請中と表示
-            const hasKokoroShiftApplication = filteredShifts.some((shift) => shift.title === "ココロシフト申請中");
-            console.log(hasKokoroShiftApplication)
-            if (hasKokoroShiftApplication) {
+
+            const kokoroShifts = filteredShifts.filter((shift) => shift.title === "ココロシフト申請中");
+            // "ココロシフト申請中" のシフトがある場合、ココロシフト申請中と表示
+            if (kokoroShifts.length > 0) {
               setKokoroShiftApplied(true); // ココロシフト申請がある場合に true に設定
             }
 
@@ -74,6 +74,23 @@ const KokoroStateForm = () => {
               end: shift.endTime,
             }));
           setEvents(shiftEvents);
+
+              // 24時間以内のココロシフトがあるかどうかをチェック
+              const currentDateTime = new Date();
+              const twentyFourHourslater = new Date(currentDateTime);
+              twentyFourHourslater.setHours(currentDateTime.getHours() + 24);
+              console.log(twentyFourHourslater)
+  
+              const hasKokoroShiftWithin24Hours = kokoroShifts.some((shift) => {
+                const startTime = new Date(shift.startTime);
+                console.log(startTime)
+                return startTime < twentyFourHourslater;
+              });
+              console.log(hasKokoroShiftWithin24Hours)
+  
+              if (hasKokoroShiftWithin24Hours) {
+                alert('24時間以内のココロシフトがあります。');
+              }
               })
               .catch((error) => console.error('シフトの取得に失敗しました', error));
 
