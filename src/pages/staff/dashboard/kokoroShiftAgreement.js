@@ -123,7 +123,7 @@ const KokoroShiftAgreement = () => {
             if (event.title === 'ココロシフト申請中') {
               return 'kokoro-shift-event';
             }
-            return 'shift-event'; // 他のイベントにはカスタムクラスを適用しない
+            return 'shift-event';
           }}
         />
         </div>
