@@ -75,6 +75,7 @@ const KokoroStateForm = () => {
             }));
           setEvents(shiftEvents);
 
+
               // 24時間以内のココロシフトがあるかどうかをチェック
               const currentDateTime = new Date();
               const twentyFourHourslater = new Date(currentDateTime);
@@ -180,6 +181,13 @@ const KokoroStateForm = () => {
           plugins= {[timeGridPlugin, interactionPlugin]}
           initialView= 'timeGridWeek'
           events={events}
+          eventClassNames={(arg) => {
+            const { event } = arg;
+            if (event.title === 'ココロシフト申請中') {
+              return 'kokoro-shift-event';
+            }
+            return 'shift-event'; // 他のイベントにはカスタムクラスを適用しない
+          }}
         />
         </div>
       </form>
