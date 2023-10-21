@@ -89,7 +89,20 @@ const KokoroStateForm = () => {
               console.log(hasKokoroShiftWithin24Hours)
   
               if (hasKokoroShiftWithin24Hours) {
-                alert('24時間以内のココロシフトがあります。');
+                console.log(kokoroShifts)
+                const eventId = kokoroShifts.map((shift) => shift._id);
+                alert('ココロシフトが却下されました');
+                // バックエンドのAPIにイベントIDを送信してデータベース上のtitleを変更
+                fetch(`http://localhost:5100/admin/kokoro-shift/dismiss/${eventId}`, {
+                  method: 'PATCH', // データの更新にはPATCHメソッドを使用
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ title: 'シフト' }), // 変更後のtitleを指定
+                })
+                  .catch((error) => {
+                    alert('エラー:', error);
+                  });
               }
               })
               .catch((error) => console.error('シフトの取得に失敗しました', error));
