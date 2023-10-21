@@ -187,6 +187,7 @@ const KokoroStateForm = () => {
               return 'kokoro-shift-event';
             }
             return 'shift-event';
+          }}
         />
         </div>
       </form>
