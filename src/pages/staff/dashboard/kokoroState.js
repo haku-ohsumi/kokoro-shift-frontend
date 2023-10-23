@@ -150,7 +150,10 @@ const KokoroStateForm = () => {
       <button onClick={handleKokoroShiftApplication}>ココロシフト申請</button>
       )}
       {kokoroRisk === 'KokoroGood' && (
+      <div>
+      <h3>今ココロシフトを承認すると時給が円UP！</h3>
       <button onClick={handleKokoroShiftAgreement}>ココロシフト承認</button>
+      </div>
       )}
       </div>
       {kokoroShiftApplied && (
