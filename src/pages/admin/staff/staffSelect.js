@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function StaffSelect() {
   const [staffUsers, setStaffUsers] = useState([]);
+  const [latestWageUp, setLatestWageUp] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -12,6 +13,22 @@ function StaffSelect() {
       .catch((error) => console.error("データの取得に失敗しました", error));
   }, []);
 
+  useEffect(() => {
+    // バックエンドのAPIエンドポイントからwageUpデータを読み取る
+    fetch("http://localhost:5100/admin/wage-up/read")
+      .then((response) => response.json())
+      .then((data) => {
+        // 最新のwageUpデータを取得
+        if (Array.isArray(data) && data.length > 0) {
+          const latestData = data[data.length - 1];
+          setLatestWageUp(latestData.wageUp);
+        }
+      })
+      .catch((error) => {
+        console.error("ココロシフト時給アップの読み込みに失敗しました", error);
+      });
+  }, []);
+
   const handleStaffClick = (staffId) => {
     // スタッフ名をクリックした際のハンドラー
     sessionStorage.setItem("staffIdAdmin", staffId);
@@ -19,6 +36,7 @@ function StaffSelect() {
   };
 
   // ココロシフト時給アップ登録
+  
   const [wageUp, setWageUp] = useState(100);
 
   const handleSubmit = async (e) => {
@@ -55,8 +73,14 @@ function StaffSelect() {
       </ul>
       <h2>ココロシフト時給アップ登録</h2>
       <form onSubmit={handleSubmit}>
+      <h2>最新のココロシフト時給アップ</h2>
+      {latestWageUp !== null ? (
+        <p>最新の時給アップ金額: {latestWageUp} 円</p>
+      ) : (
+        <p>最新の時給アップデータはありません</p>
+      )}
         <label>
-          ココロシフト時給アップ金額（円 / h）
+          ココロシフト時給アップ金額（円）
           <input
             type="number"
             value={wageUp}
