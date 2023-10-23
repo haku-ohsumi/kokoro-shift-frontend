@@ -10,6 +10,8 @@ const KokoroShiftAgreement = () => {
   const [events, setEvents] = useState([]); 
   const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffId'));
   const [kokoroRisk, setKokoroRisk] = useState(null); 
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
 
   useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffId");
@@ -62,6 +64,11 @@ const KokoroShiftAgreement = () => {
   const handleEventClick = (info) => {
       // ここで info.event.id からクリックされたココロシフトの詳細を取得し、時間の重複をチェック
   const clickedShift = events.find((event) => event.id === info.event.id);
+  const event = info.event; // クリックされたイベントオブジェクト
+
+  // クリックされたイベントの start と end 情報を取得
+  const startTime = event.start;
+  const endTime = event.end;
 
   // 重複チェックのための関数を作成
   const isTimeOverlap = (eventA, eventB) => {
@@ -95,6 +102,23 @@ const KokoroShiftAgreement = () => {
       body: JSON.stringify({ title: 'シフト', staffIdAdmin: staffIdAdmin  }), // 変更後のtitleを指定
     })
       .then((response) => {
+            // ココロシフトを追加
+        setEvents([...events, { title: 'Shift', start: startTime, end: endTime }]);
+        
+        setStartTime('');
+        setEndTime('');
+
+        try {
+          const response = fetch(`http://localhost:5100/admin/shift-management/${staffIdAdmin}/${startTime}/${endTime}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ }),
+          });
+        } catch (error) {
+          alert("Error:", error);
+        }
         if (response.ok) {
           alert('ココロシフトが承認されました');
           navigate("/staff/dashboard");
@@ -109,6 +133,8 @@ const KokoroShiftAgreement = () => {
     }
   };
 
+  
+
   return (
     <div>
       <h1>ココロシフト承認</h1>
@@ -121,6 +147,8 @@ const KokoroShiftAgreement = () => {
           eventClassNames={(arg) => {
             const { event } = arg;
             if (event.title === 'ココロシフト申請中') {
+              return 'kokoro-shift-application-event';}
+            else if (event.title.includes('ココロシフト')) {
               return 'kokoro-shift-event';
             }
             return 'shift-event';

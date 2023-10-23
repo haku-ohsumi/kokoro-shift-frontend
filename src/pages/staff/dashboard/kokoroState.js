@@ -184,6 +184,8 @@ const KokoroStateForm = () => {
           eventClassNames={(arg) => {
             const { event } = arg;
             if (event.title === 'ココロシフト申請中') {
+              return 'kokoro-shift-application-event';}
+            else if (event.title.includes('ココロシフト')) {
               return 'kokoro-shift-event';
             }
             return 'shift-event';

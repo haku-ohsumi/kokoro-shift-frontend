@@ -313,8 +313,14 @@ footer{
   margin: 3rem 0;
 }
 
-.kokoro-shift-event {
+.kokoro-shift-application-event {
   background-color: #DD8680;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.kokoro-shift-event {
+  background-color: #EFB2AE;
   padding: 5px;
   border-radius: 5px;
 }
