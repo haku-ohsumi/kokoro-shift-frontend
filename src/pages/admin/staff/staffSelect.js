@@ -64,16 +64,15 @@ function StaffSelect() {
   return (
     <div>
       <h1>スタッフユーザー一覧</h1>
-      <ul>
+      <p>
         {staffUsers.map((staffUser) => (
           <li key={staffUser._id} onClick={() => handleStaffClick(staffUser._id)}>
           {staffUser.name}
         </li>
         ))}
-      </ul>
-      <h2>ココロシフト時給アップ登録</h2>
+      </p>
+      <h1>ココロシフト時給アップ登録</h1>
       <form onSubmit={handleSubmit}>
-      <h2>最新のココロシフト時給アップ</h2>
       {latestWageUp !== null ? (
         <p>最新の時給アップ金額: {latestWageUp} 円</p>
       ) : (

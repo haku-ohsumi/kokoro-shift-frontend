@@ -182,30 +182,31 @@ const KokoroStateForm = () => {
     return (
     <div>
       <div>
-      {kokoroRisk === 'KokoroBad' && !kokoroShiftApplied && (
-      <button onClick={handleKokoroShiftApplication}>ココロシフト申請</button>
-      )}
-      {kokoroRisk === 'KokoroGood' && (
-      <div>
-      {latestwageUp && <h3>今ココロシフトを承認すると時給が{latestwageUp}円UP！</h3>}
-      <button onClick={handleKokoroShiftAgreement}>ココロシフト承認</button>
-      </div>
-      )}
-      </div>
+      <h1>ココロシフト</h1>
       {kokoroShiftApplied && (
           <p>ココロシフト申請中</p>
         )}
       <div>
       {kokoroRisk ? (
-        <p>{kokoroRisk}</p>
+        <p>今のあなたのココロリスクは{kokoroRisk}です</p>
       ) : (
         <p>ココロリスクを読み込んでいます...</p>
       )}
       </div>
-      <h1>ココロの状態を選択</h1>
+      {kokoroRisk === 'KokoroBad' && !kokoroShiftApplied && (
+      <button onClick={handleKokoroShiftApplication}>ココロシフト申請ページへ</button>
+      )}
+      {kokoroRisk === 'KokoroGood' && (
+      <div>
+      {latestwageUp && <p>今ココロシフトを承認すると時給が{latestwageUp}円UP！</p>}
+      <button onClick={handleKokoroShiftAgreement}>ココロシフト承認ページへ</button>
+      </div>
+      )}
+      </div>
+      <h1>ココロポイント</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          ココロの状態:
+        <p>あなたの今のココロポイント:　
           <select value={kokoroState} onChange={handleKokoroStateChange}>
             {Array.from({ length: 10 }, (_, i) => (
               <option key={i} value={i + 1}>
@@ -213,6 +214,8 @@ const KokoroStateForm = () => {
               </option>
             ))}
           </select>
+          ポイント
+        </p>
         </label>
         <button type="submit">送信</button>
         <div>

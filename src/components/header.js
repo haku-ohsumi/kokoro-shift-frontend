@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom"
-import headerSVG from "../images/S__32620567.jpg"
+import headerSVG from "../images/PINK_wh_kokoroshift_header.svg"
 
 const Header = () =>{
   return(
