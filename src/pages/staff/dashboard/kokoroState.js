@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -6,15 +6,17 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 const KokoroStateForm = () => {
   const navigate = useNavigate();
-  
+    
   const [kokoroState, setKokoroState] = useState(5); // 初期値を5に設定
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [events, setEvents] = useState([]); 
+  const [wageUp, setWageUp] = useState([]); 
+  const [latestwageUp, setLatestWageUp] = useState([]); 
   const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffId'));
   const [kokoroRisk, setKokoroRisk] = useState(null); 
   const [kokoroShiftApplied, setKokoroShiftApplied] = useState(false);
-
+  
   const handleKokoroStateChange = (e) => {
     const selectedState = parseInt(e.target.value, 10); // 選択された値を数値に変換
     setKokoroState(selectedState);
@@ -72,8 +74,19 @@ const KokoroStateForm = () => {
               title: shift.title,
               start: shift.startTime,
               end: shift.endTime,
+              wageUp: shift.wageUp,
             }));
           setEvents(shiftEvents);
+          // shiftEvents 配列の各要素から wageUp を取得する
+          const wageUpValues = shiftEvents.map((event) => event.wageUp);
+          // wageUpValues 配列からユニークな wageUp 値を抽出する
+          const uniqueWageUpValues = [...new Set(wageUpValues)];
+          // もし、uniqueWageUpValues の要素が1つ以上ある場合、最初の要素を選択（すべて同じ値だと仮定）
+          const wageUp = uniqueWageUpValues.length > 0 ? uniqueWageUpValues[0] : null;
+          // もしくは、特定のインデックスの wageUp 値を取得
+          // const wageUp = uniqueWageUpValues.length > 0 ? uniqueWageUpValues[desiredIndex] : null;
+          // この wageUp ステートに必要なデータを設定する
+          setWageUp(wageUp);
 
 
               // 24時間以内のココロシフトがあるかどうかをチェック
@@ -123,7 +136,23 @@ const KokoroStateForm = () => {
         console.error('エラー:', error);
       }}
       fetchKokoroRisk();
-  }, []);
+
+      // バックエンドのAPIからココロシフト時給アップデータを読み取る
+      fetch("http://localhost:5100/admin/wage-up/read")
+      .then((response) => response.json())
+      .then((data) => {
+        // 配列から最後の要素を取得
+        const latestWageUpData = data[data.length - 1];
+        // 最新のデータからwageUpプロパティを取得
+        const latestWageUp = latestWageUpData.wageUp;
+
+        // 最新のwageUpをStateに設定
+        setLatestWageUp(latestWageUp);
+      })
+      .catch((error) => {
+        console.error("ココロシフト時給アップデータの読み込みに失敗しました", error);
+      });
+      }, []);
 
   const handleLogout = () => {
     // セッションストレージをクリア
@@ -143,7 +172,14 @@ const KokoroStateForm = () => {
     navigate('/staff/kokoro-shift/agreement');
   };
 
-  return (
+  const handleEventClick = (info) => {
+    const event = info.event; // クリックされたイベントオブジェクト
+    if (event.extendedProps.wageUp !== undefined) {
+      alert(`時給 ${event.extendedProps.wageUp} 円UP！`);
+    }
+  };
+
+    return (
     <div>
       <div>
       {kokoroRisk === 'KokoroBad' && !kokoroShiftApplied && (
@@ -151,7 +187,7 @@ const KokoroStateForm = () => {
       )}
       {kokoroRisk === 'KokoroGood' && (
       <div>
-      <h3>今ココロシフトを承認すると時給が円UP！</h3>
+      {latestwageUp && <h3>今ココロシフトを承認すると時給が{latestwageUp}円UP！</h3>}
       <button onClick={handleKokoroShiftAgreement}>ココロシフト承認</button>
       </div>
       )}
@@ -184,7 +220,7 @@ const KokoroStateForm = () => {
           plugins= {[timeGridPlugin, interactionPlugin]}
           initialView= 'timeGridWeek'
           events={events}
-          eventClassNames={(arg) => {
+                    eventClassNames={(arg) => {
             const { event } = arg;
             if (event.title === 'ココロシフト申請中') {
               return 'kokoro-shift-application-event';}
@@ -193,8 +229,9 @@ const KokoroStateForm = () => {
             }
             return 'shift-event';
           }}
-        />
-        </div>
+          eventClick={handleEventClick}
+                  />
+                      </div>
       </form>
       {/* ログアウトボタン */}
       <button onClick={handleLogout}>ログアウト</button>

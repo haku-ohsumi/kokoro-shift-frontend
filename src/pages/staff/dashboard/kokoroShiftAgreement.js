@@ -12,6 +12,7 @@ const KokoroShiftAgreement = () => {
   const [kokoroRisk, setKokoroRisk] = useState(null); 
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+  const [latestWageUp, setLatestWageUp] = useState(null);
 
   useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffId");
@@ -59,6 +60,22 @@ const KokoroShiftAgreement = () => {
         console.error('エラー:', error);
       }}
       fetchKokoroRisk();
+  }, []);
+
+  useEffect(() => {
+    // バックエンドのAPIエンドポイントからwageUpデータを読み取る
+    fetch("http://localhost:5100/admin/wage-up/read")
+      .then((response) => response.json())
+      .then((data) => {
+        // 最新のwageUpデータを取得
+        if (Array.isArray(data) && data.length > 0) {
+          const latestData = data[data.length - 1];
+          setLatestWageUp(latestData.wageUp);
+        }
+      })
+      .catch((error) => {
+        console.error("ココロシフト時給アップの読み込みに失敗しました", error);
+      });
   }, []);
 
   const handleEventClick = (info) => {
@@ -109,7 +126,7 @@ const KokoroShiftAgreement = () => {
         setEndTime('');
 
         try {
-          const response = fetch(`http://localhost:5100/admin/shift-management/${staffIdAdmin}/${startTime}/${endTime}`, {
+          const response = fetch(`http://localhost:5100/admin/shift-management/${staffIdAdmin}/${startTime}/${endTime}/${latestWageUp}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
