@@ -15,7 +15,7 @@ function StaffSelect() {
 
   useEffect(() => {
     // バックエンドのAPIエンドポイントからwageUpデータを読み取る
-    fetch("http://localhost:5100/admin/wage-up/read")
+    fetch("http://localhost:5100/admin/shift/wage-up/read")
       .then((response) => response.json())
       .then((data) => {
         // 最新のwageUpデータを取得
@@ -43,7 +43,7 @@ function StaffSelect() {
     e.preventDefault();
     
     try {
-      const response = await fetch("http://localhost:5100/api/wage", {
+      const response = await fetch("http://localhost:5100/admin/shift/wage-up/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

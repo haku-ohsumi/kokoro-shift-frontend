@@ -39,7 +39,7 @@ function ShiftForm() {
 
       async function fetchKokoroRisk() {
       try {
-        const response = await fetch(`http://localhost:5100/api/calculate-kokoro-risk/${staffIdAdmin}`);
+        const response = await fetch(`http://localhost:5100/admin/kokoro-risk/calculate/${staffIdAdmin}`);
 
         if (response.ok) {
           const kokoroRiskData = await response.json();

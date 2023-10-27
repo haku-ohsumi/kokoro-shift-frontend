@@ -47,7 +47,7 @@ const KokoroShiftAgreement = () => {
 
       async function fetchKokoroRisk() {
       try {
-        const response = await fetch(`http://localhost:5100/api/calculate-kokoro-risk/${staffIdAdmin}`);
+        const response = await fetch(`http://localhost:5100/admin/kokoro-risk/calculate/${staffIdAdmin}`);
 
         if (response.ok) {
           const kokoroRiskData = await response.json();
@@ -64,7 +64,7 @@ const KokoroShiftAgreement = () => {
 
   useEffect(() => {
     // バックエンドのAPIエンドポイントからwageUpデータを読み取る
-    fetch("http://localhost:5100/admin/wage-up/read")
+    fetch("http://localhost:5100/admin/shift/wage-up/read")
       .then((response) => response.json())
       .then((data) => {
         // 最新のwageUpデータを取得
