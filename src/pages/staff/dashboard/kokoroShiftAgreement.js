@@ -154,7 +154,7 @@ const KokoroShiftAgreement = () => {
 
   return (
     <div>
-      <h1>ココロシフト承認</h1>
+      <h1 className="page-title">ココロシフト承認</h1>
       <h3>今ココロシフトを承認すると時給が円UP！</h3>
         <div>
         <FullCalendar

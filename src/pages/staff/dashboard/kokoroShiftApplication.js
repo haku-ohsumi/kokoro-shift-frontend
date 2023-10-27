@@ -76,7 +76,7 @@ const KokoroShiftApplication = () => {
 
   return (
     <div>
-      <h1>ココロシフト申請</h1>
+      <h1 className="page-title">ココロシフト申請</h1>
         <div>
         <FullCalendar
           plugins= {[timeGridPlugin, interactionPlugin]}

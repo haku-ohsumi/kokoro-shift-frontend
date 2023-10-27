@@ -31,7 +31,7 @@ const AdminRegister = () => {
 
   return (
     <div>
-      <h1 className="page-title">管理者登録</h1>
+      <h1 className="page-title">オーナー登録</h1>
       <form onSubmit={handleSubmit}>
         <input value={name} onChange={(e) => setname(e.target.value)} type="text" name="name" placeholder="店名" required/>
         <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" name="email" placeholder="メールアドレス" required/>

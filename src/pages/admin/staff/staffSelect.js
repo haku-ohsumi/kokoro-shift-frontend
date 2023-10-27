@@ -63,7 +63,7 @@ function StaffSelect() {
 
   return (
     <div>
-      <h1>スタッフユーザー一覧</h1>
+      <h2>スタッフユーザー一覧</h2>
       <p>
         {staffUsers.map((staffUser) => (
           <li key={staffUser._id} onClick={() => handleStaffClick(staffUser._id)}>
@@ -71,7 +71,7 @@ function StaffSelect() {
         </li>
         ))}
       </p>
-      <h1>ココロシフト時給アップ登録</h1>
+      <h2>ココロシフト時給アップ登録</h2>
       <form onSubmit={handleSubmit}>
       {latestWageUp !== null ? (
         <p>最新の時給アップ金額: {latestWageUp} 円</p>

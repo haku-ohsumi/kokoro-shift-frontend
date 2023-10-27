@@ -182,7 +182,7 @@ const KokoroStateForm = () => {
     return (
     <div>
       <div>
-      <h1>ココロシフト</h1>
+      <h2>ココロシフト</h2>
       {kokoroShiftApplied && (
           <p>ココロシフト申請中</p>
         )}
@@ -213,7 +213,7 @@ const KokoroStateForm = () => {
       </div>
       )}
       </div>
-      <h1>ココロポイント</h1>
+      <h2>ココロポイント</h2>
       <form onSubmit={handleSubmit}>
         <label>
         <p>あなたの今のココロポイント:　
