@@ -188,7 +188,17 @@ const KokoroStateForm = () => {
         )}
       <div>
       {kokoroRisk ? (
-        <p>今のあなたのココロリスクは{kokoroRisk}です</p>
+        <>
+          {kokoroRisk === 'KokoroBad' && (
+            <p>今のあなたのココロリスクは高いです</p>
+          )}
+          {kokoroRisk === 'KokoroNeutral' && (
+            <p>今のあなたのココロリスクは普通です</p>
+          )}
+          {kokoroRisk === 'KokoroGood' && (
+            <p>今のあなたのココロリスクは低いです</p>
+          )}
+        </>
       ) : (
         <p>ココロリスクを読み込んでいます...</p>
       )}
