@@ -14,6 +14,7 @@ const KokoroStateForm = () => {
   const [wageUp, setWageUp] = useState([]); 
   const [latestwageUp, setLatestWageUp] = useState([]); 
   const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffId'));
+  const [staffName, setStaffName] = useState(sessionStorage.getItem('staffName'));
   const [kokoroRisk, setKokoroRisk] = useState(null); 
   const [kokoroShiftApplied, setKokoroShiftApplied] = useState(false);
   
@@ -181,6 +182,7 @@ const KokoroStateForm = () => {
 
     return (
     <div>
+      <h1 className="page-title">{staffName}</h1>
       <div>
       <h2>ココロシフト</h2>
       {kokoroShiftApplied && (
