@@ -126,7 +126,7 @@ function StaffSelect() {
         <button type="submit">登録</button>
       </form>
       <div>
-      <h2>シフト一覧</h2>
+      <h2>シフト表</h2>
         <FullCalendar
           plugins= {[timeGridPlugin, interactionPlugin]}
           initialView= 'timeGridWeek'

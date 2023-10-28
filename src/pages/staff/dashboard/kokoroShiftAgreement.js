@@ -111,31 +111,19 @@ const KokoroShiftAgreement = () => {
       setEvents(updatedEvents);
 
     // バックエンドのAPIにイベントIDを送信してデータベース上のtitleを変更
-    fetch(`http://localhost:5100/admin/kokoro-shift/agreement/${info.event.id}/${staffIdAdmin}`, {
+    fetch(`http://localhost:5100/admin/kokoro-shift/agreement/${info.event.id}/${staffIdAdmin}/${latestWageUp}`, {
       method: 'PATCH', // データの更新にはPATCHメソッドを使用
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title: 'シフト', staffIdAdmin: staffIdAdmin  }), // 変更後のtitleを指定
+      body: JSON.stringify({ title: 'ココロシフト', staffIdAdmin: staffIdAdmin, wageUp: latestWageUp}), // 変更後のtitleを指定
     })
       .then((response) => {
             // ココロシフトを追加
-        setEvents([...events, { title: 'Shift', start: startTime, end: endTime }]);
-        
+        setEvents([...events, { title: 'ココロシフト', start: startTime, end: endTime }]);
         setStartTime('');
         setEndTime('');
 
-        try {
-          const response = fetch(`http://localhost:5100/admin/shift-management/${staffIdAdmin}/${startTime}/${endTime}/${latestWageUp}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ }),
-          });
-        } catch (error) {
-          alert("Error:", error);
-        }
         if (response.ok) {
           alert('ココロシフトが承認されました');
           navigate("/staff/dashboard");
