@@ -11,14 +11,6 @@ function ShiftForm() {
   const [kokoroRisk, setKokoroRisk] = useState(null); 
 
   useEffect(() => {
-    // セッションストレージから staffIdAdmin を取得
-    // const sessionStaffIdAdmin = sessionStorage.getItem('staffIdAdmin');
-    // if (sessionStaffIdAdmin) {
-    //   setStaffIdAdmin(sessionStaffIdAdmin);
-    // }
-  }, []);
-
-  useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffIdAdmin");
     fetch('http://localhost:5100/admin/shift/read') // バックエンドのエンドポイントにGETリクエストを送信
       .then((response) => response.json())
@@ -145,6 +137,15 @@ function ShiftForm() {
           initialView= 'timeGridWeek'
           events={events}
           eventClick={handleEventClick}
+          eventClassNames={(arg) => {
+            const { event } = arg;
+            if (event.title === 'ココロシフト申請中') {
+              return 'kokoro-shift-application-event';}
+            else if (event.title.includes('ココロシフト')) {
+              return 'kokoro-shift-event';
+            }
+            return 'shift-event';
+          }}
         />
         </div>
     </div>

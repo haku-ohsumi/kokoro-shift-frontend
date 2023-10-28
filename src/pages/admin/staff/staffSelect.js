@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction';
 
 function StaffSelect() {
   const [staffUsers, setStaffUsers] = useState([]);
   const [latestWageUp, setLatestWageUp] = useState(null);
+  const [events, setEvents] = useState([]); 
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,6 +32,23 @@ function StaffSelect() {
       .catch((error) => {
         console.error("ココロシフト時給アップの読み込みに失敗しました", error);
       });
+  }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:5100/admin/shift/read') // バックエンドのエンドポイントにGETリクエストを送信
+      .then((response) => response.json())
+      .then((data) => {
+            const shiftEvents = data.map((shift) => ({
+              id: shift._id,
+              title: shift.title,
+              start: shift.startTime,
+              end: shift.endTime,
+              staffIdAdmin: shift.staffIdAdmin,
+              wageUp: shift.wageUp
+            }));
+          setEvents(shiftEvents);
+        })
+      .catch((error) => console.error('シフトの取得に失敗しました', error));
   }, []);
 
   const handleStaffClick = (staffId) => {
@@ -61,6 +83,21 @@ function StaffSelect() {
     }
   };
 
+  const fetchStaffName = async (staffId) => {
+    try {
+      const response = await fetch(`http://localhost:5100/admin/staff/get-name/${staffId}`);
+      if (response.ok) {
+        const data = await response.json();
+        return data.name;
+      } else {
+        return "スタッフ名不明";
+      }
+    } catch (error) {
+      console.error("スタッフ名の取得に失敗しました", error);
+      return "スタッフ名不明";
+    }
+  };
+
   return (
     <div>
       <h2>スタッフユーザー一覧</h2>
@@ -88,6 +125,42 @@ function StaffSelect() {
         </label>
         <button type="submit">登録</button>
       </form>
+      <div>
+      <h2>シフト一覧</h2>
+        <FullCalendar
+          plugins= {[timeGridPlugin, interactionPlugin]}
+          initialView= 'timeGridWeek'
+          events={events}
+          eventClassNames={(arg) => {
+            const { event } = arg;
+            if (event.title === 'ココロシフト申請中') {
+              return 'kokoro-shift-application-event';}
+            else if (event.title.includes('ココロシフト')) {
+              return 'kokoro-shift-event';
+            }
+            return 'shift-event';
+          }}
+          eventMouseEnter={async (arg) => {
+            const staffId = arg.event.extendedProps.staffIdAdmin;
+            const staffName = await fetchStaffName(staffId);
+            const tooltip = document.createElement('div');
+            tooltip.className = 'event-tooltip';
+            let tooltipContent = staffName;
+  
+            if (arg.event.extendedProps.wageUp) {
+              tooltipContent += `<br/>時給${arg.event.extendedProps.wageUp}円Up`;
+            }
+
+            tooltip.innerHTML = tooltipContent;
+            arg.el.appendChild(tooltip);
+          }}
+          eventMouseLeave={() => {
+            // イベントからマウスが離れたときの処理
+            const tooltips = document.querySelectorAll('.event-tooltip');
+            tooltips.forEach((tooltip) => tooltip.remove());
+          }}
+        />
+        </div>
     </div>
   );
 }
