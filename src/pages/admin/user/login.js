@@ -1,10 +1,15 @@
 import { useState } from "react"
 import { useNavigate } from 'react-router-dom';
-
+import { BiArrowBack } from "react-icons/bi";
 const AdminLogin = () => {
   const navigate = useNavigate();
   const[email, setEmail] = useState("")
   const[password, setPassword] = useState("")
+
+  const handleGoBack = () => {
+    // "戻る" ボタンがクリックされたときの処理
+    navigate("/");
+  };
 
   const handleSubmit = async(e) => {
     e.preventDefault()
@@ -32,6 +37,7 @@ const AdminLogin = () => {
 
   return (
     <div>
+      <BiArrowBack onClick={handleGoBack} className="back-button" /> {/* 戻るボタン */}
       <h1 className="page-title">オーナーログイン</h1>
       <form onSubmit={handleSubmit}>
         <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" name="email" placeholder="メールアドレス" required/>
