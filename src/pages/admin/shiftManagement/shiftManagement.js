@@ -9,6 +9,7 @@ function ShiftForm() {
   const [endTime, setEndTime] = useState('');
   const [events, setEvents] = useState([]); 
   const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffIdAdmin'));
+  const [staffNameAdmin, setStaffNameAdmin] = useState([]);
   const [kokoroRisk, setKokoroRisk] = useState(null); 
   const [staffUsers, setStaffUsers] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState("");  // 選択されたスタッフを保持するステート
@@ -57,6 +58,23 @@ function ShiftForm() {
         console.error('エラー:', error);
       }}
       fetchKokoroRisk();
+
+      const fetchStaffName = async () => {
+        try {
+          const response = await fetch(`http://localhost:5100/admin/staff/get-name/${staffIdAdmin}`);
+          if (response.ok) {
+            const data = await response.json();
+            setStaffNameAdmin(data.name)
+            return data.name;
+          } else {
+            return "スタッフ名不明";
+          }
+        } catch (error) {
+          console.error("スタッフ名の取得に失敗しました", error);
+          return "スタッフ名不明";
+        }
+      };
+      fetchStaffName();
   }, []);
 
   const handleFormSubmit = async (e) => {
@@ -130,7 +148,23 @@ function ShiftForm() {
 
   return (
     <div>
-      <h1 className='page-title'>個別</h1>
+      <h1 className='page-title'>{staffNameAdmin}      <div>
+      {kokoroRisk ? (
+        <>
+          {kokoroRisk === 'KokoroBad' && (
+            <p>このスタッフのココロリスクは高いです</p>
+          )}
+          {kokoroRisk === 'KokoroNeutral' && (
+            <p>このスタッフのココロリスクは普通です</p>
+          )}
+          {kokoroRisk === 'KokoroGood' && (
+            <p>このスタッフのココロリスクは低いです</p>
+          )}
+        </>
+      ) : (
+        <p>ココロリスクを読み込んでいます...</p>
+      )}
+      </div></h1>
         <div>
         <h2>シフト表</h2>
       <p>
@@ -160,11 +194,7 @@ function ShiftForm() {
           }}
         />
         </div>
-        {kokoroRisk ? (
-        <p>{kokoroRisk}</p>
-      ) : (
-        <p>ココロリスクを読み込んでいます...</p>
-      )}
+        <h2>シフト追加</h2>
       <form onSubmit={handleFormSubmit}>
         <div>
           <label>開始:</label>

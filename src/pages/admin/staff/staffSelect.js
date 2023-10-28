@@ -104,7 +104,10 @@ function StaffSelect() {
 
   return (
     <div>
-      <h1 className='page-title'>全員</h1>
+      <h1 className='page-title'>
+        全員
+        <p>全員分のシフトを表示しています</p>
+        </h1>
       <div>
       <h2>シフト表</h2>
       <p>
