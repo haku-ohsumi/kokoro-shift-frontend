@@ -6,6 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 function StaffSelect() {
   const [staffUsers, setStaffUsers] = useState([]);
+  const [selectedStaff, setSelectedStaff] = useState("");  // 選択されたスタッフを保持するステート
   const [latestWageUp, setLatestWageUp] = useState(null);
   const [events, setEvents] = useState([]); 
 
@@ -52,9 +53,12 @@ function StaffSelect() {
   }, []);
 
   const handleStaffClick = (staffId) => {
-    // スタッフ名をクリックした際のハンドラー
-    sessionStorage.setItem("staffIdAdmin", staffId);
-    navigate("/admin/staffId/shift-management");
+    if (selectedStaff) {
+      sessionStorage.setItem("staffIdAdmin", selectedStaff);
+      navigate("/admin/staffId/shift-management");
+    } else {
+      navigate("/admin/staff-select"); // 選択していない場合の遷移先
+    }
   };
 
   // ココロシフト時給アップ登録
@@ -100,33 +104,20 @@ function StaffSelect() {
 
   return (
     <div>
-      <h2>スタッフユーザー一覧</h2>
-      <p>
-        {staffUsers.map((staffUser) => (
-          <li key={staffUser._id} onClick={() => handleStaffClick(staffUser._id)}>
-          {staffUser.name}
-        </li>
-        ))}
-      </p>
-      <h2>ココロシフト時給アップ登録</h2>
-      <form onSubmit={handleSubmit}>
-      {latestWageUp !== null ? (
-        <p>最新の時給アップ金額: {latestWageUp} 円</p>
-      ) : (
-        <p>最新の時給アップデータはありません</p>
-      )}
-        <label>
-          ココロシフト時給アップ金額（円）
-          <input
-            type="number"
-            value={wageUp}
-            onChange={(e) => setWageUp(e.target.value)}
-          />
-        </label>
-        <button type="submit">登録</button>
-      </form>
+      <h1 className='page-title'>全員</h1>
       <div>
       <h2>シフト表</h2>
+      <p>
+      <select value={selectedStaff} onChange={(e) => setSelectedStaff(e.target.value)}>
+        <option value="">全員</option>
+        {staffUsers.map((staffUser) => (
+          <option key={staffUser._id} value={staffUser._id}>
+            {staffUser.name}
+          </option>
+        ))}
+      </select>
+      <button onClick={() => handleStaffClick(selectedStaff)}>選択</button>
+      </p>
         <FullCalendar
           plugins= {[timeGridPlugin, interactionPlugin]}
           initialView= 'timeGridWeek'
@@ -161,6 +152,23 @@ function StaffSelect() {
           }}
         />
         </div>
+        <h2>ココロシフト時給アップ登録</h2>
+      <form onSubmit={handleSubmit}>
+      {latestWageUp !== null ? (
+        <p>今の時給アップ金額: {latestWageUp} 円</p>
+      ) : (
+        <p>今の時給アップデータはありません</p>
+      )}
+        <label>
+          時給アップ金額（円）
+          <input
+            type="number"
+            value={wageUp}
+            onChange={(e) => setWageUp(e.target.value)}
+          />
+        </label>
+        <button type="submit">登録</button>
+      </form>
     </div>
   );
 }

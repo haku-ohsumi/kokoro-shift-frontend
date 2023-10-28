@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction';
@@ -9,6 +10,18 @@ function ShiftForm() {
   const [events, setEvents] = useState([]); 
   const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffIdAdmin'));
   const [kokoroRisk, setKokoroRisk] = useState(null); 
+  const [staffUsers, setStaffUsers] = useState([]);
+  const [selectedStaff, setSelectedStaff] = useState("");  // 選択されたスタッフを保持するステート
+  const [latestWageUp, setLatestWageUp] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch("http://localhost:5100/admin/staff/select") // バックエンドのエンドポイントにGETリクエストを送信
+      .then((response) => response.json())
+      .then((data) => setStaffUsers(data))
+      .catch((error) => console.error("データの取得に失敗しました", error));
+  }, []);
 
   useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffIdAdmin");
@@ -105,9 +118,49 @@ function ShiftForm() {
       }
   };
 
+  const handleStaffClick = (staffId) => {
+    if (selectedStaff) {
+      sessionStorage.setItem("staffIdAdmin", selectedStaff);
+      navigate("/admin/staffId/shift-management");
+      window.location.reload();
+    } else {
+      navigate("/admin/staff-select"); // 選択していない場合の遷移先
+    }
+  };
+
   return (
     <div>
-      {kokoroRisk ? (
+      <h1 className='page-title'>個別</h1>
+        <div>
+        <h2>シフト表</h2>
+      <p>
+      <select value={selectedStaff} onChange={(e) => setSelectedStaff(e.target.value)}>
+        <option value="">全員</option>
+        {staffUsers.map((staffUser) => (
+          <option key={staffUser._id} value={staffUser._id}>
+            {staffUser.name}
+          </option>
+        ))}
+      </select>
+      <button onClick={() => handleStaffClick(selectedStaff)}>選択</button>
+      </p>
+        <FullCalendar
+          plugins= {[timeGridPlugin, interactionPlugin]}
+          initialView= 'timeGridWeek'
+          events={events}
+          eventClick={handleEventClick}
+          eventClassNames={(arg) => {
+            const { event } = arg;
+            if (event.title === 'ココロシフト申請中') {
+              return 'kokoro-shift-application-event';}
+            else if (event.title.includes('ココロシフト')) {
+              return 'kokoro-shift-event';
+            }
+            return 'shift-event';
+          }}
+        />
+        </div>
+        {kokoroRisk ? (
         <p>{kokoroRisk}</p>
       ) : (
         <p>ココロリスクを読み込んでいます...</p>
@@ -131,23 +184,6 @@ function ShiftForm() {
         </div>
         <button type="submit">保存</button>
       </form>
-        <div>
-        <FullCalendar
-          plugins= {[timeGridPlugin, interactionPlugin]}
-          initialView= 'timeGridWeek'
-          events={events}
-          eventClick={handleEventClick}
-          eventClassNames={(arg) => {
-            const { event } = arg;
-            if (event.title === 'ココロシフト申請中') {
-              return 'kokoro-shift-application-event';}
-            else if (event.title.includes('ココロシフト')) {
-              return 'kokoro-shift-event';
-            }
-            return 'shift-event';
-          }}
-        />
-        </div>
     </div>
   );
 }
