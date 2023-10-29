@@ -381,3 +381,23 @@ footer{
   opacity: 0.8;
   background: #EFB2AE;
 }
+
+.guideline {
+  position: relative;
+  background-color: #DD8680; /* 吹き出しの背景色 */
+  color: #fff; /* テキストの色 */
+  padding: 10px; /* 吹き出し内の余白 */
+  border-radius: 10px; /* 吹き出しの角の丸み */
+  width: auto; /* 吹き出しの幅 */
+}
+
+.guideline::before {
+  content: "";
+  position: absolute;
+  top: -20px; /* 三角部分の位置を上に調整 */
+  left: 50%; /* 吹き出しの中央 */
+  border-width: 10px; /* 三角部分のサイズ */
+  border-style: solid;
+  border-color:  transparent transparent #DD8680 transparent; /* 三角部分の色 */
+  transform: translateX(-50%); /* 中央揃え */
+}

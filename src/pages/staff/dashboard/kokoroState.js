@@ -7,7 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 const KokoroStateForm = () => {
   const navigate = useNavigate();
     
-  const [kokoroState, setKokoroState] = useState(5); // 初期値を5に設定
+  const [kokoroState, setKokoroState] = useState(7); // 初期値を5に設定
   const [events, setEvents] = useState([]); 
   const [wageUp, setWageUp] = useState([]); 
   const [latestwageUp, setLatestWageUp] = useState([]); 
@@ -218,6 +218,18 @@ const KokoroStateForm = () => {
             ))}
           </select>
           ポイント
+        </p>
+        <p className="guideline">
+        {kokoroState === 1 && <p>今までで一番つらいかも…</p>}
+        {kokoroState === 2 && <p>仕事辞めたいかも…</p>}
+        {kokoroState === 3 && <p>もう帰ったほうがいいかも…</p>}
+        {kokoroState === 4 && <p>いつもより仕事はかどらなそう…</p>}
+        {kokoroState === 5 && <p>いつもより仕事はかどらないかも…</p>}
+        {kokoroState === 6 && <p>ちょっと帰りたいかも…</p>}
+        {kokoroState === 7 && <p>いつも通り働けそう！</p>}
+        {kokoroState === 8 && <p>いつもより調子いいかも！</p>}
+        {kokoroState === 9 && <p>ばりばり働くぞ！</p>}
+        {kokoroState === 10 && <p>今までで一番仕事はかどりそう！</p>}
         </p>
         </label>
         <button type="submit">送信</button>
