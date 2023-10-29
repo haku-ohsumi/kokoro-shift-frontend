@@ -162,7 +162,8 @@ function StaffSelect() {
           }}
         />
         </div>
-        <h2>ココロシフト時給アップ登録</h2>
+        <h2>時給アップ登録</h2>
+        <p>時給アップ登録では、ココロシフト承認時に何円時給アップするかを登録できます<br/>金額が大きいほどココロシフト承認されやすくなります</p>
       <form onSubmit={handleSubmit}>
       {latestWageUp !== null ? (
         <p>今の時給アップ金額: {latestWageUp} 円</p>
