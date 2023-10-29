@@ -182,7 +182,7 @@ const KokoroStateForm = () => {
 
     return (
     <div>
-      <h1 className="page-title">{staffName}</h1>
+            <h1 className="page-title">{staffName}</h1>
       <div>
       <h2>ココロシフト</h2>
       {kokoroShiftApplied && (
@@ -248,7 +248,7 @@ const KokoroStateForm = () => {
                   />
                       </div>
       </form>
-      {/* ログアウトボタン */}
+{/* ログアウトボタン */}
       <button onClick={handleLogout}>ログアウト</button>
     </div>
   );

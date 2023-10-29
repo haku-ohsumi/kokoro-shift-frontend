@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
+import { BiArrowBack } from "react-icons/bi";
 
 const StaffLogin = () => {
   const[email, setEmail] = useState("")
@@ -43,6 +44,10 @@ const StaffLogin = () => {
 
   return (
     <div>
+      <BiArrowBack
+        onClick={() => navigate("/")}
+        className="back-button"
+      />
       <h1 className="page-title">スタッフログイン</h1>
       <form onSubmit={handleSubmit}>
         <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" name="email" placeholder="メールアドレス" required/>

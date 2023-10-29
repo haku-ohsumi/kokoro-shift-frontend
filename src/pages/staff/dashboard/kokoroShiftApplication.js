@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction';
+import { BiArrowBack } from "react-icons/bi";
 
 const KokoroShiftApplication = () => {
   const navigate = useNavigate();
@@ -76,6 +77,10 @@ const KokoroShiftApplication = () => {
 
   return (
     <div>
+      <BiArrowBack
+        onClick={() => navigate("/staff/dashboard")}
+        className="back-button"
+      />
       <h1 className="page-title">ココロシフト申請</h1>
         <div>
         <FullCalendar

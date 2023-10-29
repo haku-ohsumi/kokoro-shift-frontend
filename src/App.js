@@ -10,6 +10,7 @@ import KokoroShiftAgreement from"./pages/staff/dashboard/kokoroShiftAgreement"
 import StaffSelect from"./pages/admin/staff/staffSelect"
 import ShiftForm from"./pages/admin/shiftManagement/shiftManagement"
 import Home from "./pages/home"
+import Information from "./pages/information"
 import Header from "./components/header"
 import Footer from "./components/footer"
 
@@ -23,6 +24,7 @@ const App = () => {
         <Header/>
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path="/information" element={<Information/>}/>
         <Route path="/admin/user/login" element={<AdminLogin/>}/>
         <Route path="/admin/user/register" element={<AdminRegister/>}/>
         <Route path="/staff/user/login" element={<StaffLogin/>}/>

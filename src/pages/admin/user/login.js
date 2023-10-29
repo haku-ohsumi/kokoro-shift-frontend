@@ -6,11 +6,6 @@ const AdminLogin = () => {
   const[email, setEmail] = useState("")
   const[password, setPassword] = useState("")
 
-  const handleGoBack = () => {
-    // "戻る" ボタンがクリックされたときの処理
-    navigate("/");
-  };
-
   const handleSubmit = async(e) => {
     e.preventDefault()
     try{
@@ -37,7 +32,10 @@ const AdminLogin = () => {
 
   return (
     <div>
-      <BiArrowBack onClick={handleGoBack} className="back-button" /> {/* 戻るボタン */}
+      <BiArrowBack
+        onClick={() => navigate("/")}
+        className="back-button"
+      />
       <h1 className="page-title">オーナーログイン</h1>
       <form onSubmit={handleSubmit}>
         <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" name="email" placeholder="メールアドレス" required/>

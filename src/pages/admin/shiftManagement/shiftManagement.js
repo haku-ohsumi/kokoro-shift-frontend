@@ -146,6 +146,15 @@ function ShiftForm() {
     }
   };
 
+  const handleLogout = () => {
+    // セッションストレージをクリア
+    window.sessionStorage.clear();
+
+    // ログアウト後にスタッフログイン画面に遷移
+    navigate('/admin/user/login');
+  }
+
+
   return (
     <div>
       <h1 className='page-title'>{staffNameAdmin}      <div>
@@ -214,6 +223,7 @@ function ShiftForm() {
         </div>
         <button type="submit">保存</button>
       </form>
+      <button onClick={handleLogout}>ログアウト</button>
     </div>
   );
 }

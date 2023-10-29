@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction';
+import { BiArrowBack } from "react-icons/bi";
 
 const KokoroShiftAgreement = () => {
   const navigate = useNavigate();
@@ -142,6 +143,10 @@ const KokoroShiftAgreement = () => {
 
   return (
     <div>
+      <BiArrowBack
+        onClick={() => navigate("/staff/dashboard")}
+        className="back-button"
+      />
       <h1 className="page-title">ココロシフト承認</h1>
       <h3>今ココロシフトを承認すると時給が円UP！</h3>
         <div>
