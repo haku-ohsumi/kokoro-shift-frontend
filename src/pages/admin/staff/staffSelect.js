@@ -6,14 +6,14 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 function StaffSelect() {
   const [staffUsers, setStaffUsers] = useState([]);
-  const [selectedStaff, setSelectedStaff] = useState("");  // 選択されたスタッフを保持するステート
+  const [selectedStaff, setSelectedStaff] = useState("");
   const [latestWageUp, setLatestWageUp] = useState(null);
   const [events, setEvents] = useState([]); 
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5100/admin/staff/select") // バックエンドのエンドポイントにGETリクエストを送信
+    fetch("http://localhost:5100/admin/staff/select")
       .then((response) => response.json())
       .then((data) => setStaffUsers(data))
       .catch((error) => console.error("データの取得に失敗しました", error));
@@ -36,7 +36,7 @@ function StaffSelect() {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:5100/admin/shift/read') // バックエンドのエンドポイントにGETリクエストを送信
+    fetch('http://localhost:5100/admin/shift/read')
       .then((response) => response.json())
       .then((data) => {
             const shiftEvents = data.map((shift) => ({
@@ -62,7 +62,6 @@ function StaffSelect() {
   };
 
   // ココロシフト時給アップ登録
-  
   const [wageUp, setWageUp] = useState(100);
 
   const handleSubmit = async (e) => {
@@ -74,7 +73,7 @@ function StaffSelect() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ wageUp }), // ここでデータを送信
+        body: JSON.stringify({ wageUp }),
       });
 
       if (response.ok) {
@@ -105,7 +104,6 @@ function StaffSelect() {
   const handleLogout = () => {
     // セッションストレージをクリア
     window.sessionStorage.clear();
-
     // ログアウト後にスタッフログイン画面に遷移
     navigate('/admin/user/login');
   }

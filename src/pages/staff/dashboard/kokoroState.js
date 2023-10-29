@@ -8,12 +8,9 @@ const KokoroStateForm = () => {
   const navigate = useNavigate();
     
   const [kokoroState, setKokoroState] = useState(5); // 初期値を5に設定
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
   const [events, setEvents] = useState([]); 
   const [wageUp, setWageUp] = useState([]); 
   const [latestwageUp, setLatestWageUp] = useState([]); 
-  const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffId'));
   const [staffName, setStaffName] = useState(sessionStorage.getItem('staffName'));
   const [kokoroRisk, setKokoroRisk] = useState(null); 
   const [kokoroShiftApplied, setKokoroShiftApplied] = useState(false);
@@ -57,7 +54,7 @@ const KokoroStateForm = () => {
 
   useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffId");
-    fetch('http://localhost:5100/admin/shift/read') // バックエンドのエンドポイントにGETリクエストを送信
+    fetch('http://localhost:5100/admin/shift/read')
       .then((response) => response.json())
       .then((data) => {
         const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
@@ -82,11 +79,7 @@ const KokoroStateForm = () => {
           const wageUpValues = shiftEvents.map((event) => event.wageUp);
           // wageUpValues 配列からユニークな wageUp 値を抽出する
           const uniqueWageUpValues = [...new Set(wageUpValues)];
-          // もし、uniqueWageUpValues の要素が1つ以上ある場合、最初の要素を選択（すべて同じ値だと仮定）
           const wageUp = uniqueWageUpValues.length > 0 ? uniqueWageUpValues[0] : null;
-          // もしくは、特定のインデックスの wageUp 値を取得
-          // const wageUp = uniqueWageUpValues.length > 0 ? uniqueWageUpValues[desiredIndex] : null;
-          // この wageUp ステートに必要なデータを設定する
           setWageUp(wageUp);
 
 
@@ -106,7 +99,7 @@ const KokoroStateForm = () => {
               if (hasKokoroShiftWithin24Hours) {
                 console.log(kokoroShifts)
                 const eventId = kokoroShifts.map((shift) => shift._id);
-                alert('ココロシフトが却下されました');
+                alert('ココロシフト申請が却下されました');
                 // バックエンドのAPIにイベントIDを送信してデータベース上のtitleを変更
                 fetch(`http://localhost:5100/admin/kokoro-shift/dismiss/${eventId}`, {
                   method: 'PATCH', // データの更新にはPATCHメソッドを使用
@@ -158,7 +151,6 @@ const KokoroStateForm = () => {
   const handleLogout = () => {
     // セッションストレージをクリア
     window.sessionStorage.clear();
-
     // ログアウト後にスタッフログイン画面に遷移
     navigate('/staff/user/login');
   }
@@ -169,7 +161,6 @@ const KokoroStateForm = () => {
   };
 
   const handleKokoroShiftAgreement = () => {
-    // ココロシフト申請ボタンがクリックされたときに /staff/kokoro-shift/application に遷移
     navigate('/staff/kokoro-shift/agreement');
   };
 

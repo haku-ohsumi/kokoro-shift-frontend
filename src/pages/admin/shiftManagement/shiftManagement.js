@@ -8,17 +8,15 @@ function ShiftForm() {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [events, setEvents] = useState([]); 
-  const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffIdAdmin'));
   const [staffNameAdmin, setStaffNameAdmin] = useState([]);
   const [kokoroRisk, setKokoroRisk] = useState(null); 
   const [staffUsers, setStaffUsers] = useState([]);
-  const [selectedStaff, setSelectedStaff] = useState("");  // 選択されたスタッフを保持するステート
-  const [latestWageUp, setLatestWageUp] = useState(null);
+  const [selectedStaff, setSelectedStaff] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5100/admin/staff/select") // バックエンドのエンドポイントにGETリクエストを送信
+    fetch("http://localhost:5100/admin/staff/select")
       .then((response) => response.json())
       .then((data) => setStaffUsers(data))
       .catch((error) => console.error("データの取得に失敗しました", error));
@@ -26,13 +24,10 @@ function ShiftForm() {
 
   useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffIdAdmin");
-    fetch('http://localhost:5100/admin/shift/read') // バックエンドのエンドポイントにGETリクエストを送信
+    fetch('http://localhost:5100/admin/shift/read')
       .then((response) => response.json())
       .then((data) => {
         const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
-            console.log('Filtered Shifts:', filteredShifts);
-            // console.log('staffIdAdmin (left):', shift.staffIdAdmin); // staffIdAdmin の値をコンソールに出力
-            // console.log('staffIdAdmin (right):', staffIdAdmin);
             const shiftEvents = filteredShifts.map((shift) => ({
               id: shift._id,
               title: shift.title,
@@ -114,7 +109,7 @@ function ShiftForm() {
   };
 
   const handleEventClick = (info,arg) => {
-      if (window.confirm('このイベントを削除しますか？')) {
+      if (window.confirm('このシフトを削除しますか？')) {
         const updatedEvents = events.filter((event) => event !== info.event.id);
         info.event.remove()
         setEvents(updatedEvents);
@@ -149,7 +144,6 @@ function ShiftForm() {
   const handleLogout = () => {
     // セッションストレージをクリア
     window.sessionStorage.clear();
-
     // ログアウト後にスタッフログイン画面に遷移
     navigate('/admin/user/login');
   }

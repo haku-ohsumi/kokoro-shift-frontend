@@ -23,7 +23,6 @@ const AdminLogin = () => {
       const jsonResponse = await response.json()
       localStorage.setItem("adminToken", jsonResponse.adminToken)
       alert(jsonResponse.message)
-      // ログインに成功したら staff select 画面にリダイレクト
       navigate('/admin/staff-select');
     }catch(err){
       alert("ログイン失敗")

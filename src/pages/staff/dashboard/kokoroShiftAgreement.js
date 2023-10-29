@@ -9,7 +9,6 @@ const KokoroShiftAgreement = () => {
   const navigate = useNavigate();
   
   const [events, setEvents] = useState([]); 
-  const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffId'));
   const [kokoroRisk, setKokoroRisk] = useState(null); 
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -17,7 +16,7 @@ const KokoroShiftAgreement = () => {
 
   useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffId");
-    fetch('http://localhost:5100/admin/shift/read') // バックエンドのエンドポイントにGETリクエストを送信
+    fetch('http://localhost:5100/admin/shift/read')
       .then((response) => response.json())
       .then((data) => {
       // すべてのシフトデータを取得
@@ -111,13 +110,13 @@ const KokoroShiftAgreement = () => {
       const updatedEvents = events.filter((event) => event !== info.event.id);
       setEvents(updatedEvents);
 
-    // バックエンドのAPIにイベントIDを送信してデータベース上のtitleを変更
+    // バックエンドのAPIにイベントIDを送信してデータベース上のtitleなどを変更
     fetch(`http://localhost:5100/admin/kokoro-shift/agreement/${info.event.id}/${staffIdAdmin}/${latestWageUp}`, {
       method: 'PATCH', // データの更新にはPATCHメソッドを使用
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title: 'ココロシフト', staffIdAdmin: staffIdAdmin, wageUp: latestWageUp}), // 変更後のtitleを指定
+      body: JSON.stringify({ title: 'ココロシフト', staffIdAdmin: staffIdAdmin, wageUp: latestWageUp}),
     })
       .then((response) => {
             // ココロシフトを追加

@@ -9,18 +9,15 @@ const KokoroShiftApplication = () => {
   const navigate = useNavigate();
   
   const [events, setEvents] = useState([]); 
-  const [staffIdAdmin, setStaffIdAdmin] = useState(sessionStorage.getItem('staffId'));
   const [kokoroRisk, setKokoroRisk] = useState(null); 
 
   useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffId");
-    fetch('http://localhost:5100/admin/shift/read') // バックエンドのエンドポイントにGETリクエストを送信
+    fetch('http://localhost:5100/admin/shift/read')
       .then((response) => response.json())
       .then((data) => {
         const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
             console.log('Filtered Shifts:', filteredShifts);
-            // console.log('staffIdAdmin (left):', shift.staffIdAdmin); // staffIdAdmin の値をコンソールに出力
-            // console.log('staffIdAdmin (right):', staffIdAdmin);
             const shiftEvents = filteredShifts.map((shift) => ({
               id: shift._id,
               title: shift.title,
