@@ -1,12 +1,16 @@
 import { Route, Routes, BrowserRouter} from "react-router-dom"
 
-import Register from"./pages/user/register"
-import Login from"./pages/user/login"
-import ReadAll from "./pages/item/readAll"
-import ReadSingleItem from "./pages/item/readSingle"
-import CreateItem from "./pages/item/create"
-import UpdateItem from "./pages/item/update"
-import DeleteItem from "./pages/item/delete"
+import AdminLogin from"./pages/admin/user/login"
+import AdminRegister from"./pages/admin/user/register"
+import StaffLogin from"./pages/staff/user/login"
+import StaffRegister from"./pages/admin/staff/register"
+import KokoroStateForm from"./pages/staff/dashboard/kokoroState"
+import KokoroShiftApplication from"./pages/staff/dashboard/kokoroShiftApplication"
+import KokoroShiftAgreement from"./pages/staff/dashboard/kokoroShiftAgreement"
+import StaffSelect from"./pages/admin/staff/staffSelect"
+import ShiftForm from"./pages/admin/shiftManagement/shiftManagement"
+import Home from "./pages/home"
+import Information from "./pages/information"
 import Header from "./components/header"
 import Footer from "./components/footer"
 
@@ -14,18 +18,22 @@ import "./App.css"
 
 
 const App = () => {
-  return (
+    return (
     <BrowserRouter>
       <div className="container">
         <Header/>
       <Routes>
-        <Route path="/user/register" element={<Register/>}/>
-        <Route path="/user/login" element={<Login/>}/>
-        <Route path="/" element={<ReadAll/>}/>
-        <Route path="/item/:id" element={<ReadSingleItem/>}/>
-        <Route path="/item/create" element={<CreateItem/>}/>
-        <Route path="/item/update/:id" element={<UpdateItem/>}/>
-        <Route path="/item/delete/:id" element={<DeleteItem/>}/>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/information" element={<Information/>}/>
+        <Route path="/admin/user/login" element={<AdminLogin/>}/>
+        <Route path="/admin/user/register" element={<AdminRegister/>}/>
+        <Route path="/staff/user/login" element={<StaffLogin/>}/>
+        <Route path="/admin/staff/register" element={<StaffRegister/>}/>
+        <Route path="/staff/dashboard" element={<KokoroStateForm/>}/>
+        <Route path="/staff/kokoro-shift/application" element={<KokoroShiftApplication/>}/>
+        <Route path="/staff/kokoro-shift/agreement" element={<KokoroShiftAgreement/>}/>
+        <Route path="/admin/staff-select" element={<StaffSelect/>}/>
+        <Route path="/admin/staffId/shift-management" element={<ShiftForm/>}/>
       </Routes>
       <Footer/>
       </div>

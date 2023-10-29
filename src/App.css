@@ -31,14 +31,23 @@ body{
 
 h1{
   font-size: 3rem;
-  font-weight: 400;
+  font-weight: bold; 
   line-height: 3.5rem;
+  padding: 1rem;
+  background-color: #7A86A9;
+  color:white;
+  margin-top: 3rem;
 }
 
 h2{
-  font-size: 2.4rem;
-  font-weight: 400;
-  line-height: 3rem;
+  font-size: 3rem;
+  font-weight: bold; 
+  line-height: 3.5rem;
+  padding: 1rem;
+  background-color: #E9C9C5;
+  color:white;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
 }
 
 h3{
@@ -50,11 +59,15 @@ h3{
 p{
   font-size: 1.8rem;
   line-height: 3.5rem;
-  margin-bottom: 1.4rem;
+  margin: 1rem;
 }
 
 a{
   text-decoration: none;
+}
+
+li{
+  font-size: 2rem;
 }
 
 .page-title{
@@ -90,11 +103,12 @@ button{
   border-radius: 0.5rem;
   cursor: pointer;
   width: 100%;
+  margin-top: 2rem;
 }
 
 button:hover{
   opacity: 0.8;
-  background: linear-gradient(135deg,#63A1FF,#73FF92);
+  background: #EFB2AE;
 }
 
 /* Header */
@@ -307,4 +321,83 @@ header * li a:hover{
 footer{
   text-align: center;
   margin: 3rem 0;
+}
+
+.kokoro-shift-application-event {
+  background-color: #DD8680;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.kokoro-shift-event {
+  background-color: #EFB2AE;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.shift-event {
+  background-color: #7A86A8;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.event-tooltip{
+  background-color: #DD8680;
+  color: #fff;
+  font-size: 10px;
+  padding: 0.5rem;
+}
+
+.back-button{
+  background: #858585;
+  font-size: 1.6rem;
+  color: #fff;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 2rem;
+}
+
+.back-button:hover{
+  opacity: 0.8;
+  background: #EFB2AE;
+}
+
+.information{
+  background: #858585;
+  font-size: 1.6rem;
+  color: #fff;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 2rem;
+  display: block;
+  margin-left: auto;
+}
+
+.information:hover{
+  opacity: 0.8;
+  background: #EFB2AE;
+}
+
+.guideline {
+  position: relative;
+  background-color: #DD8680; /* 吹き出しの背景色 */
+  color: #fff; /* テキストの色 */
+  padding: 10px; /* 吹き出し内の余白 */
+  border-radius: 10px; /* 吹き出しの角の丸み */
+  width: auto; /* 吹き出しの幅 */
+}
+
+.guideline::before {
+  content: "";
+  position: absolute;
+  top: -20px; /* 三角部分の位置を上に調整 */
+  left: 50%; /* 吹き出しの中央 */
+  border-width: 10px; /* 三角部分のサイズ */
+  border-style: solid;
+  border-color:  transparent transparent #DD8680 transparent; /* 三角部分の色 */
+  transform: translateX(-50%); /* 中央揃え */
 }

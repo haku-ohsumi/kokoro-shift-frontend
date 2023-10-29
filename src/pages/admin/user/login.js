@@ -1,13 +1,15 @@
 import { useState } from "react"
-
-const Login = () => {
+import { useNavigate } from 'react-router-dom';
+import { BiArrowBack } from "react-icons/bi";
+const AdminLogin = () => {
+  const navigate = useNavigate();
   const[email, setEmail] = useState("")
   const[password, setPassword] = useState("")
 
   const handleSubmit = async(e) => {
     e.preventDefault()
     try{
-      const response = await fetch("https://mern-stack-backend-kw5i.onrender.com/user/login",{
+      const response = await fetch("http://localhost:5100/admin/user/login",{
         method: "POST",
         headers: {
           "Accept": "application/json",
@@ -19,8 +21,9 @@ const Login = () => {
         })
       })
       const jsonResponse = await response.json()
-      localStorage.setItem("token", jsonResponse.token)
+      localStorage.setItem("adminToken", jsonResponse.adminToken)
       alert(jsonResponse.message)
+      navigate('/admin/staff-select');
     }catch(err){
       alert("ログイン失敗")
     }
@@ -28,7 +31,11 @@ const Login = () => {
 
   return (
     <div>
-      <h1 className="page-title">ログイン</h1>
+      <BiArrowBack
+        onClick={() => navigate("/")}
+        className="back-button"
+      />
+      <h1 className="page-title">オーナーログイン</h1>
       <form onSubmit={handleSubmit}>
         <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" name="email" placeholder="メールアドレス" required/>
         <input value={password} onChange={(e) => setPassword(e.target.value)} type="text" name="password" placeholder="パスワード" required/>
@@ -38,4 +45,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default AdminLogin
