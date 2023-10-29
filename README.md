@@ -1,3 +1,30 @@
+# ココロシフトの説明
+以下のリンクにこの製品の説明資料あり
+https://docs.google.com/presentation/d/1QnzUD1a4_-KyMPaQmLjzgm5sqMwV-Ct0wW8YTyvcqiA/edit#slide=id.p
+
+# デモアカウントパスワード
+オーナー
+name: "はく商店"
+email: "haku@mail.com"
+password: "haku0717"
+
+スタッフ
+name: "佐藤　蒼"
+email: "so.sato@mail.com"
+password: "so0311"
+
+name: "鈴木　陽葵"
+email: "himari@mail.com"
+password: "himari0912"
+
+name: "高橋　凪"
+email: "nagi@mail.com"
+password: "nagi1018"
+
+name: "田中　凛"
+email: "rin.tanaka@mail.com"
+password: "rin0504"
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
