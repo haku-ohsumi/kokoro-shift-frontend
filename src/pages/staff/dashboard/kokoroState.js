@@ -11,7 +11,8 @@ const KokoroStateForm = () => {
     apiKey: process.env.REACT_APP_OPENAI_API_KEY, dangerouslyAllowBrowser: true
   });
     
-  const [kokoroState, setKokoroState] = useState(7); // 初期値を5に設定
+  const [kokoroState, setKokoroState] = useState(0); // 初期値を5に設定
+  const [State, setState] = useState([]); // 初期値を5に設定
   const [events, setEvents] = useState([]); 
   const [wageUp, setWageUp] = useState([]); 
   const [latestwageUp, setLatestWageUp] = useState([]); 
@@ -20,13 +21,23 @@ const KokoroStateForm = () => {
   const [kokoroShiftApplied, setKokoroShiftApplied] = useState(false);
   
   const handleKokoroStateChange = (e) => {
-    setKokoroState(e.target.value);
+    setState(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
+    // ChatGPT機能
+    async function getChatCompletion() {
+      const chatCompletion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{"role": "user", "content": `コメントについて、この人の心の状態は「良い」「悪い」か「普通」か三択で答えて。答え方は「良い」などと単語のみで答えて。コメント:${State}`}],
+      });
+    
+      console.log(chatCompletion.choices[0].message.content);
+    }
+    
+    getChatCompletion();
 
     // StaffIDをセッションストレージから取得
     const staffId = sessionStorage.getItem("staffId");
@@ -36,39 +47,29 @@ const KokoroStateForm = () => {
       return;
     }
 
-    // APIにデータを送信
-    try {
-      const response = await fetch(`http://localhost:5100/staff/kokoro/state/${staffId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ kokoroState }),
-      });
+    // // APIにデータを送信
+    // try {
+    //   const response = await fetch(`http://localhost:5100/staff/kokoro/state/${staffId}`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ kokoroState }),
+    //   });
 
-      if (response.status === 200) {
-        alert("データが正常に送信されました");
-      } else {
-        alert("データの送信中にエラーが発生しました");
-      }
-    } catch (error) {
-      alert("エラーが発生しました");
-      console.error("エラーが発生しました", error);
-    }
+    //   if (response.status === 200) {
+    //     alert("データが正常に送信されました");
+    //   } else {
+    //     alert("データの送信中にエラーが発生しました");
+    //   }
+    // } catch (error) {
+    //   alert("エラーが発生しました");
+    //   console.error("エラーが発生しました", error);
+    // }
   };
 
   useEffect(() => {
-        // ChatGPT機能
-        async function getChatCompletion() {
-          const chatCompletion = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
-            messages: [{"role": "user", "content": `コメントについて、この人の心の状態は「良い」「悪い」か「普通」か三択で答えて。答え方は「良い」などと単語のみで答えて。コメント:`}],
-          });
-        
-          console.log(chatCompletion.choices[0].message.content);
-        }
-        
-        getChatCompletion();
+
 
     const staffIdAdmin = sessionStorage.getItem("staffId");
     fetch('http://localhost:5100/admin/shift/read')
@@ -226,8 +227,8 @@ const KokoroStateForm = () => {
       <h2>ココロポイント</h2>
       <form onSubmit={handleSubmit}>
         <label>
-        <p>あなたの今のココロポイント:　
-        <input type="text" maxlength="30" onChange={handleKokoroStateChange}/>
+        <p>今日のココロ日記:　
+        <input type="text" minlength="10" maxlength="30" onChange={handleKokoroStateChange}/>
         </p>
         </label>
         <button type="submit">送信</button>
