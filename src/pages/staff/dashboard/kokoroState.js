@@ -20,8 +20,7 @@ const KokoroStateForm = () => {
   const [kokoroShiftApplied, setKokoroShiftApplied] = useState(false);
   
   const handleKokoroStateChange = (e) => {
-    const selectedState = parseInt(e.target.value, 10); // 選択された値を数値に変換
-    setKokoroState(selectedState);
+    setKokoroState(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -228,26 +227,7 @@ const KokoroStateForm = () => {
       <form onSubmit={handleSubmit}>
         <label>
         <p>あなたの今のココロポイント:　
-          <select value={kokoroState} onChange={handleKokoroStateChange}>
-            {Array.from({ length: 10 }, (_, i) => (
-              <option key={i} value={i + 1}>
-                {i + 1}
-              </option>
-            ))}
-          </select>
-          ポイント
-        </p>
-        <p className="guideline">
-        {kokoroState === 1 && <p>今までで一番つらいかも…</p>}
-        {kokoroState === 2 && <p>仕事辞めたいかも…</p>}
-        {kokoroState === 3 && <p>もう帰ったほうがいいかも…</p>}
-        {kokoroState === 4 && <p>いつもより仕事はかどらなそう…</p>}
-        {kokoroState === 5 && <p>いつもより仕事はかどらないかも…</p>}
-        {kokoroState === 6 && <p>ちょっと帰りたいかも…</p>}
-        {kokoroState === 7 && <p>いつも通り働けそう！</p>}
-        {kokoroState === 8 && <p>いつもより調子いいかも！</p>}
-        {kokoroState === 9 && <p>ばりばり働くぞ！</p>}
-        {kokoroState === 10 && <p>今までで一番仕事はかどりそう！</p>}
+        <input type="text" maxlength="30" onChange={handleKokoroStateChange}/>
         </p>
         </label>
         <button type="submit">送信</button>
