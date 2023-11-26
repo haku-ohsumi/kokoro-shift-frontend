@@ -3,9 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction';
+import OpenAI from 'openai';
 
 const KokoroStateForm = () => {
   const navigate = useNavigate();
+  const openai = new OpenAI({
+    apiKey: process.env.REACT_APP_OPENAI_API_KEY, dangerouslyAllowBrowser: true
+  });
     
   const [kokoroState, setKokoroState] = useState(7); // 初期値を5に設定
   const [events, setEvents] = useState([]); 
@@ -22,6 +26,8 @@ const KokoroStateForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
 
     // StaffIDをセッションストレージから取得
     const staffId = sessionStorage.getItem("staffId");
@@ -53,6 +59,18 @@ const KokoroStateForm = () => {
   };
 
   useEffect(() => {
+        // ChatGPT機能
+        async function getChatCompletion() {
+          const chatCompletion = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [{"role": "user", "content": `コメントについて、この人の心の状態は「良い」「悪い」か「普通」か三択で答えて。答え方は「良い」などと単語のみで答えて。コメント:`}],
+          });
+        
+          console.log(chatCompletion.choices[0].message.content);
+        }
+        
+        getChatCompletion();
+
     const staffIdAdmin = sessionStorage.getItem("staffId");
     fetch('http://localhost:5100/admin/shift/read')
       .then((response) => response.json())
