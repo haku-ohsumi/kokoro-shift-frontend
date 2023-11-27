@@ -3,11 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction';
+import OpenAI from 'openai';
 
 const KokoroStateForm = () => {
   const navigate = useNavigate();
+  const openai = new OpenAI({
+    apiKey: process.env.REACT_APP_OPENAI_API_KEY, dangerouslyAllowBrowser: true
+  });
     
-  const [kokoroState, setKokoroState] = useState(7); // 初期値を5に設定
+  const [answer, setAnswer] = useState([]); 
+  const [kokoroState, setKokoroState] = useState(0); // 初期値を5に設定
+  const [State, setState] = useState([]);
   const [events, setEvents] = useState([]); 
   const [wageUp, setWageUp] = useState([]); 
   const [latestwageUp, setLatestWageUp] = useState([]); 
@@ -16,14 +22,35 @@ const KokoroStateForm = () => {
   const [kokoroShiftApplied, setKokoroShiftApplied] = useState(false);
   
   const handleKokoroStateChange = (e) => {
-    const selectedState = parseInt(e.target.value, 10); // 選択された値を数値に変換
-    setKokoroState(selectedState);
+    setState(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // StaffIDをセッションストレージから取得
+    // ChatGPT機能
+    async function getChatCompletion() {
+      const chatCompletion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{"role": "user", "content": `コメントについて、この人の心の状態は「良い」「悪い」か「普通」か三択で答えて。答え方は「良い」などと単語のみで答えて。コメント:${State}`}],
+      });
+
+      const answer = chatCompletion.choices[0].message.content;
+      let kokoroState = 0;
+
+      if (answer === "良い") {
+        kokoroState = 10;
+      } else if (answer === "普通") {
+        kokoroState = 7;
+      } else if (answer === "悪い") {
+        kokoroState = 2;
+      } else {
+        alert("AI分析中にエラーが発生しました");
+      }
+      console.log(chatCompletion.choices[0].message.content);
+      console.log(kokoroState);
+
+          // StaffIDをセッションストレージから取得
     const staffId = sessionStorage.getItem("staffId");
 
     if (!staffId) {
@@ -31,7 +58,7 @@ const KokoroStateForm = () => {
       return;
     }
 
-    // APIにデータを送信
+          // APIにデータを送信
     try {
       const response = await fetch(`http://localhost:5100/staff/kokoro/state/${staffId}`, {
         method: "POST",
@@ -50,9 +77,15 @@ const KokoroStateForm = () => {
       alert("エラーが発生しました");
       console.error("エラーが発生しました", error);
     }
+    }
+
+    getChatCompletion();
+    
   };
 
   useEffect(() => {
+
+
     const staffIdAdmin = sessionStorage.getItem("staffId");
     fetch('http://localhost:5100/admin/shift/read')
       .then((response) => response.json())
@@ -209,27 +242,8 @@ const KokoroStateForm = () => {
       <h2>ココロポイント</h2>
       <form onSubmit={handleSubmit}>
         <label>
-        <p>あなたの今のココロポイント:　
-          <select value={kokoroState} onChange={handleKokoroStateChange}>
-            {Array.from({ length: 10 }, (_, i) => (
-              <option key={i} value={i + 1}>
-                {i + 1}
-              </option>
-            ))}
-          </select>
-          ポイント
-        </p>
-        <p className="guideline">
-        {kokoroState === 1 && <p>今までで一番つらいかも…</p>}
-        {kokoroState === 2 && <p>仕事辞めたいかも…</p>}
-        {kokoroState === 3 && <p>もう帰ったほうがいいかも…</p>}
-        {kokoroState === 4 && <p>いつもより仕事はかどらなそう…</p>}
-        {kokoroState === 5 && <p>いつもより仕事はかどらないかも…</p>}
-        {kokoroState === 6 && <p>ちょっと帰りたいかも…</p>}
-        {kokoroState === 7 && <p>いつも通り働けそう！</p>}
-        {kokoroState === 8 && <p>いつもより調子いいかも！</p>}
-        {kokoroState === 9 && <p>ばりばり働くぞ！</p>}
-        {kokoroState === 10 && <p>今までで一番仕事はかどりそう！</p>}
+        <p>今日のココロ日記:　
+        <input type="text" minlength="10" maxlength="50" onChange={handleKokoroStateChange}/>
         </p>
         </label>
         <button type="submit">送信</button>
