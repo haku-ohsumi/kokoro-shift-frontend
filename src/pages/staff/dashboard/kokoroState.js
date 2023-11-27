@@ -243,7 +243,7 @@ const KokoroStateForm = () => {
       <form onSubmit={handleSubmit}>
         <label>
         <p>今日のココロ日記:　
-        <input type="text" minlength="10" maxlength="30" onChange={handleKokoroStateChange}/>
+        <input type="text" minlength="10" maxlength="50" onChange={handleKokoroStateChange}/>
         </p>
         </label>
         <button type="submit">送信</button>
