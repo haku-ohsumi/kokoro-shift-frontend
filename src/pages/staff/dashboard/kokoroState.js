@@ -11,8 +11,9 @@ const KokoroStateForm = () => {
     apiKey: process.env.REACT_APP_OPENAI_API_KEY, dangerouslyAllowBrowser: true
   });
     
+  const [answer, setAnswer] = useState([]); 
   const [kokoroState, setKokoroState] = useState(0); // 初期値を5に設定
-  const [State, setState] = useState([]); // 初期値を5に設定
+  const [State, setState] = useState([]);
   const [events, setEvents] = useState([]); 
   const [wageUp, setWageUp] = useState([]); 
   const [latestwageUp, setLatestWageUp] = useState([]); 
@@ -33,13 +34,23 @@ const KokoroStateForm = () => {
         model: "gpt-3.5-turbo",
         messages: [{"role": "user", "content": `コメントについて、この人の心の状態は「良い」「悪い」か「普通」か三択で答えて。答え方は「良い」などと単語のみで答えて。コメント:${State}`}],
       });
-    
-      console.log(chatCompletion.choices[0].message.content);
-    }
-    
-    getChatCompletion();
 
-    // StaffIDをセッションストレージから取得
+      const answer = chatCompletion.choices[0].message.content;
+      let kokoroState = 0;
+
+      if (answer === "良い") {
+        kokoroState = 10;
+      } else if (answer === "普通") {
+        kokoroState = 7;
+      } else if (answer === "悪い") {
+        kokoroState = 2;
+      } else {
+        alert("AI分析中にエラーが発生しました");
+      }
+      console.log(chatCompletion.choices[0].message.content);
+      console.log(kokoroState);
+
+          // StaffIDをセッションストレージから取得
     const staffId = sessionStorage.getItem("staffId");
 
     if (!staffId) {
@@ -47,25 +58,29 @@ const KokoroStateForm = () => {
       return;
     }
 
-    // // APIにデータを送信
-    // try {
-    //   const response = await fetch(`http://localhost:5100/staff/kokoro/state/${staffId}`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ kokoroState }),
-    //   });
+          // APIにデータを送信
+    try {
+      const response = await fetch(`http://localhost:5100/staff/kokoro/state/${staffId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ kokoroState }),
+      });
 
-    //   if (response.status === 200) {
-    //     alert("データが正常に送信されました");
-    //   } else {
-    //     alert("データの送信中にエラーが発生しました");
-    //   }
-    // } catch (error) {
-    //   alert("エラーが発生しました");
-    //   console.error("エラーが発生しました", error);
-    // }
+      if (response.status === 200) {
+        alert("データが正常に送信されました");
+      } else {
+        alert("データの送信中にエラーが発生しました");
+      }
+    } catch (error) {
+      alert("エラーが発生しました");
+      console.error("エラーが発生しました", error);
+    }
+    }
+
+    getChatCompletion();
+    
   };
 
   useEffect(() => {
