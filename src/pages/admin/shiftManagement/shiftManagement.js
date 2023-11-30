@@ -16,7 +16,7 @@ function ShiftForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5100/admin/staff/select")
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/staff/select`)
       .then((response) => response.json())
       .then((data) => setStaffUsers(data))
       .catch((error) => console.error("データの取得に失敗しました", error));
@@ -24,7 +24,7 @@ function ShiftForm() {
 
   useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffIdAdmin");
-    fetch('http://localhost:5100/admin/shift/read')
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/shift/read`)
       .then((response) => response.json())
       .then((data) => {
         const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
@@ -40,7 +40,7 @@ function ShiftForm() {
 
       async function fetchKokoroRisk() {
       try {
-        const response = await fetch(`http://localhost:5100/admin/kokoro-risk/calculate/${staffIdAdmin}`);
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}admin/kokoro-risk/calculate/${staffIdAdmin}`);
 
         if (response.ok) {
           const kokoroRiskData = await response.json();
@@ -56,7 +56,7 @@ function ShiftForm() {
 
       const fetchStaffName = async () => {
         try {
-          const response = await fetch(`http://localhost:5100/admin/staff/get-name/${staffIdAdmin}`);
+          const response = await fetch(`${process.env.REACT_APP_BASE_URL}admin/staff/get-name/${staffIdAdmin}`);
           if (response.ok) {
             const data = await response.json();
             setStaffNameAdmin(data.name)
@@ -90,7 +90,7 @@ function ShiftForm() {
     setEndTime('');
 
     try {
-      const response = await fetch(`http://localhost:5100/admin/${staffIdAdmin}/shift-management`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}admin/${staffIdAdmin}/shift-management`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +115,7 @@ function ShiftForm() {
         setEvents(updatedEvents);
   
         // バックエンドのAPIにイベントIDを送信してデータベースからも削除
-        fetch(`http://localhost:5100/admin/shift/delete/${info.event.id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}admin/shift/delete/${info.event.id}`, {
           method: 'DELETE',
         })
           .then((response) => {

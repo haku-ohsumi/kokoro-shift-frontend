@@ -60,7 +60,7 @@ const KokoroStateForm = () => {
 
           // APIにデータを送信
     try {
-      const response = await fetch(`http://localhost:5100/staff/kokoro/state/${staffId}`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}staff/kokoro/state/${staffId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +87,7 @@ const KokoroStateForm = () => {
 
 
     const staffIdAdmin = sessionStorage.getItem("staffId");
-    fetch('http://localhost:5100/admin/shift/read')
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/shift/read`)
       .then((response) => response.json())
       .then((data) => {
         const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
@@ -134,7 +134,7 @@ const KokoroStateForm = () => {
                 const eventId = kokoroShifts.map((shift) => shift._id);
                 alert('ココロシフト申請が却下されました');
                 // バックエンドのAPIにイベントIDを送信してデータベース上のtitleを変更
-                fetch(`http://localhost:5100/admin/kokoro-shift/dismiss/${eventId}`, {
+                fetch(`${process.env.REACT_APP_BASE_URL}admin/kokoro-shift/dismiss/${eventId}`, {
                   method: 'PATCH', // データの更新にはPATCHメソッドを使用
                   headers: {
                     'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ const KokoroStateForm = () => {
 
       async function fetchKokoroRisk() {
       try {
-        const response = await fetch(`http://localhost:5100/admin/kokoro-risk/calculate/${staffIdAdmin}`);
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}admin/kokoro-risk/calculate/${staffIdAdmin}`);
 
         if (response.ok) {
           const kokoroRiskData = await response.json();
@@ -165,7 +165,7 @@ const KokoroStateForm = () => {
       fetchKokoroRisk();
 
       // バックエンドのAPIからココロシフト時給アップデータを読み取る
-      fetch("http://localhost:5100/admin/shift/wage-up/read")
+      fetch(`${process.env.REACT_APP_BASE_URL}admin/shift/wage-up/read`)
       .then((response) => response.json())
       .then((data) => {
         // 配列から最後の要素を取得

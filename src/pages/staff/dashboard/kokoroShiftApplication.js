@@ -13,7 +13,7 @@ const KokoroShiftApplication = () => {
 
   useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffId");
-    fetch('http://localhost:5100/admin/shift/read')
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/shift/read`)
       .then((response) => response.json())
       .then((data) => {
         const filteredShifts = data.filter((shift) => shift.staffIdAdmin === staffIdAdmin);
@@ -30,7 +30,7 @@ const KokoroShiftApplication = () => {
 
       async function fetchKokoroRisk() {
       try {
-        const response = await fetch(`http://localhost:5100/admin/kokoro-risk/calculate/${staffIdAdmin}`);
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}admin/kokoro-risk/calculate/${staffIdAdmin}`);
 
         if (response.ok) {
           const kokoroRiskData = await response.json();
@@ -51,7 +51,7 @@ const KokoroShiftApplication = () => {
       setEvents(updatedEvents);
 
     // バックエンドのAPIにイベントIDを送信してデータベース上のtitleを変更
-    fetch(`http://localhost:5100/admin/kokoro-shift/application/${info.event.id}`, {
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/kokoro-shift/application/${info.event.id}`, {
       method: 'PATCH', // データの更新にはPATCHメソッドを使用
       headers: {
         'Content-Type': 'application/json',

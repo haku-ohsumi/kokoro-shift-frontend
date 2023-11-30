@@ -13,7 +13,7 @@ function StaffSelect() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5100/admin/staff/select")
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/staff/select`)
       .then((response) => response.json())
       .then((data) => setStaffUsers(data))
       .catch((error) => console.error("データの取得に失敗しました", error));
@@ -21,7 +21,7 @@ function StaffSelect() {
 
   useEffect(() => {
     // バックエンドのAPIエンドポイントからwageUpデータを読み取る
-    fetch("http://localhost:5100/admin/shift/wage-up/read")
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/shift/wage-up/read`)
       .then((response) => response.json())
       .then((data) => {
         // 最新のwageUpデータを取得
@@ -36,7 +36,7 @@ function StaffSelect() {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:5100/admin/shift/read')
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/shift/read`)
       .then((response) => response.json())
       .then((data) => {
             const shiftEvents = data.map((shift) => ({
@@ -68,7 +68,7 @@ function StaffSelect() {
     e.preventDefault();
     
     try {
-      const response = await fetch("http://localhost:5100/admin/shift/wage-up/register", {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}admin/shift/wage-up/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ function StaffSelect() {
 
   const fetchStaffName = async (staffId) => {
     try {
-      const response = await fetch(`http://localhost:5100/admin/staff/get-name/${staffId}`);
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}admin/staff/get-name/${staffId}`);
       if (response.ok) {
         const data = await response.json();
         return data.name;

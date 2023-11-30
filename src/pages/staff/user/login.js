@@ -10,7 +10,7 @@ const StaffLogin = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()
     try{
-      const response = await fetch("http://localhost:5100/staff/user/login",{
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}staff/user/login`,{
         method: "POST",
         headers: {
           "Accept": "application/json",
