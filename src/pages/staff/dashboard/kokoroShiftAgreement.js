@@ -16,7 +16,7 @@ const KokoroShiftAgreement = () => {
 
   useEffect(() => {
     const staffIdAdmin = sessionStorage.getItem("staffId");
-    fetch('http://localhost:5100/admin/shift/read')
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/shift/read`)
       .then((response) => response.json())
       .then((data) => {
       // すべてのシフトデータを取得
@@ -47,7 +47,7 @@ const KokoroShiftAgreement = () => {
 
       async function fetchKokoroRisk() {
       try {
-        const response = await fetch(`http://localhost:5100/admin/kokoro-risk/calculate/${staffIdAdmin}`);
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}admin/kokoro-risk/calculate/${staffIdAdmin}`);
 
         if (response.ok) {
           const kokoroRiskData = await response.json();
@@ -64,7 +64,7 @@ const KokoroShiftAgreement = () => {
 
   useEffect(() => {
     // バックエンドのAPIエンドポイントからwageUpデータを読み取る
-    fetch("http://localhost:5100/admin/shift/wage-up/read")
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/shift/wage-up/read`)
       .then((response) => response.json())
       .then((data) => {
         // 最新のwageUpデータを取得
@@ -111,7 +111,7 @@ const KokoroShiftAgreement = () => {
       setEvents(updatedEvents);
 
     // バックエンドのAPIにイベントIDを送信してデータベース上のtitleなどを変更
-    fetch(`http://localhost:5100/admin/kokoro-shift/agreement/${info.event.id}/${staffIdAdmin}/${latestWageUp}`, {
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/kokoro-shift/agreement/${info.event.id}/${staffIdAdmin}/${latestWageUp}`, {
       method: 'PATCH', // データの更新にはPATCHメソッドを使用
       headers: {
         'Content-Type': 'application/json',

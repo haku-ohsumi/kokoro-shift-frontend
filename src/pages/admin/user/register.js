@@ -5,7 +5,7 @@ const AdminRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try{
-      const response = await fetch("http://localhost:5100/admin/user/register",{
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}admin/user/register`,{
         method:"POST",
         headers:{
           "Accept": "application/json",

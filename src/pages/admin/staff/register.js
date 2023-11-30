@@ -5,7 +5,7 @@ const StaffRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try{
-      const response = await fetch("http://localhost:5100/admin/staff/register",{
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}admin/staff/register`,{
         method:"POST",
         headers:{
           "Accept": "application/json",
