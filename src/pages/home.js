@@ -15,6 +15,7 @@ function Home() {
           <button>スタッフログイン</button>
         </Link>
       </div>
+      <a href="https://github.com/haku-ohsumi/kokoro-shift-frontend/blob/main/README.md">説明資料・デモアカウント情報</a>
     </div>
   );
 }

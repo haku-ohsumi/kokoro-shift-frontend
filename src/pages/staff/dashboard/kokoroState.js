@@ -239,7 +239,7 @@ const KokoroStateForm = () => {
       </div>
       )}
       </div>
-      <h2>ココロポイント</h2>
+      <h2>ココロ日記</h2>
       <form onSubmit={handleSubmit}>
         <label>
         <p>今日のココロ日記:　
