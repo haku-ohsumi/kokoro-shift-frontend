@@ -3,12 +3,12 @@
 https://docs.google.com/presentation/d/1Ib7EvJ_XGbZYpzXVBwFhp10YWGgE86fV4O4vGUWroYg/edit#slide=id.p
 
 # デモアカウントパスワード
-## オーナー
+- オーナー
 name: "はく商店"
 email: "haku@mail.com"
 password: "haku0717"
 
-## スタッフ
+- スタッフ
 name: "佐藤　蒼"
 email: "so.sato@mail.com"
 password: "so0311"
