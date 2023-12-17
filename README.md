@@ -3,27 +3,27 @@
 https://docs.google.com/presentation/d/1Ib7EvJ_XGbZYpzXVBwFhp10YWGgE86fV4O4vGUWroYg/edit#slide=id.p
 
 # デモアカウントパスワード
-- オーナー
-name: "はく商店"
-email: "haku@mail.com"
-password: "haku0717"
+オーナー\
+name: "はく商店"\
+email: "haku@mail.com"\
+password: "haku0717"\
 
-- スタッフ
-name: "佐藤　蒼"
-email: "so.sato@mail.com"
-password: "so0311"
+スタッフ\
+name: "佐藤　蒼"\
+email: "so.sato@mail.com"\
+password: "so0311"\
 
-name: "鈴木　陽葵"
-email: "himari@mail.com"
-password: "himari0912"
+name: "鈴木　陽葵"\
+email: "himari@mail.com"\
+password: "himari0912"\
 
-name: "高橋　凪"
-email: "nagi@mail.com"
-password: "nagi1018"
+name: "高橋　凪"\
+email: "nagi@mail.com"\
+password: "nagi1018"\
 
-name: "田中　凛"
-email: "rin.tanaka@mail.com"
-password: "rin0504"
+name: "田中　凛"\
+email: "rin.tanaka@mail.com"\
+password: "rin0504"\
 
 # Getting Started with Create React App
 
