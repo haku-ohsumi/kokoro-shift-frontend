@@ -6,24 +6,24 @@ https://docs.google.com/presentation/d/1Ib7EvJ_XGbZYpzXVBwFhp10YWGgE86fV4O4vGUWr
 オーナー\
 name: "はく商店"\
 email: "haku@mail.com"\
-password: "haku0717"\
+password: "haku0717"
 
 スタッフ\
 name: "佐藤　蒼"\
 email: "so.sato@mail.com"\
-password: "so0311"\
+password: "so0311"
 
 name: "鈴木　陽葵"\
 email: "himari@mail.com"\
-password: "himari0912"\
+password: "himari0912"
 
 name: "高橋　凪"\
 email: "nagi@mail.com"\
-password: "nagi1018"\
+password: "nagi1018"
 
 name: "田中　凛"\
 email: "rin.tanaka@mail.com"\
-password: "rin0504"\
+password: "rin0504"
 
 # Getting Started with Create React App
 
