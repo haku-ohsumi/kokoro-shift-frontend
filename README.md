@@ -1,6 +1,6 @@
 # ココロシフトの説明
 以下のリンクにこの製品の説明資料あり
-https://docs.google.com/presentation/d/1QnzUD1a4_-KyMPaQmLjzgm5sqMwV-Ct0wW8YTyvcqiA/edit#slide=id.p
+https://docs.google.com/presentation/d/1Ib7EvJ_XGbZYpzXVBwFhp10YWGgE86fV4O4vGUWroYg/edit#slide=id.p
 
 # デモアカウントパスワード
 オーナー
